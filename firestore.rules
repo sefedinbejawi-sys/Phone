@@ -1,8 +1,6 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Helper functions
     function isSignedIn() {
       return request.auth != null;
     }
@@ -15,57 +13,54 @@ service cloud.firestore {
     }
 
     function isValidId(id) {
-      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\-]+$');
     }
 
-    // Default deny
     match /{document=**} {
       allow read, write: if false;
     }
 
-    // Admins Collection
     match /admins/{adminId} {
-      allow read: if isSignedIn();
-      allow write: if isAdmin();
+      allow read, write: if isAdmin();
     }
 
-    // Products Collection
+    // Public catalog; only the owner/admin can mutate inventory.
     match /products/{productId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Orders Collection
+    // Visitors may submit COD orders, but customer records are private to admins.
     match /orders/{orderId} {
       allow create: if isValidId(orderId) &&
         request.resource.data.customerName is string &&
         request.resource.data.customerName.size() <= 150 &&
-        request.resource.data.customerPhone is string &&
-        request.resource.data.customerPhone.size() <= 30;
-      allow read: if true;
-      allow update, delete: if isAdmin();
+        request.resource.data.phone is string &&
+        request.resource.data.phone.size() <= 30;
+      allow read, update, delete: if isAdmin();
     }
 
-    // Repairs Collection
+    // Visitors may submit repair requests; only admins can inspect/update tickets.
     match /repairs/{repairId} {
       allow create: if isValidId(repairId) &&
         request.resource.data.customerName is string &&
-        request.resource.data.customerName.size() <= 150 &&
-        request.resource.data.customerPhone is string &&
-        request.resource.data.customerPhone.size() <= 30;
-      allow read: if true;
-      allow update, delete: if isAdmin();
+        request.resource.data.phone is string &&
+        request.resource.data.phone.size() <= 30;
+      allow read, update, delete: if isAdmin();
     }
 
-    // Installments Collection
+    // Installment applications can be submitted by visitors; plans are private.
     match /installments/{installmentId} {
-      allow read: if true;
-      allow write: if isAdmin();
+      allow create: if isValidId(installmentId) &&
+        request.resource.data.customerName is string &&
+        request.resource.data.phone is string &&
+        request.resource.data.phone.size() <= 30;
+      allow read, update, delete: if isAdmin();
     }
 
-    // Test connection doc
     match /test/{testId} {
-      allow read, write: if true;
+      allow read: if true;
+      allow write: if false;
     }
   }
 }

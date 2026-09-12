@@ -281,3 +281,5 @@ button.hub-benefit { width: 100%; cursor: pointer; }
   .hub-bottom-nav-item.is-active .hub-bottom-icon { background: #e6f2ff; }
   .hub-bottom-nav-item:hover { color: #0876d8 !important; }
 }
+
+.panel { background: var(--hub-card); border: 1px solid var(--hub-border); border-radius: 14px; box-shadow: var(--hub-shadow); }

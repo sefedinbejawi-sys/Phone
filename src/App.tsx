@@ -28,7 +28,7 @@ import {
 } from 'lucide-react';
 
 const MainAppContent: React.FC = () => {
-  const { currentView, setCurrentView, toasts, language, t } = useStore();
+  const { currentView, setCurrentView, toasts, language, t, firebaseUser, isOwner, isAuthLoading, loginWithGoogle } = useStore();
 
   // Modals state
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -116,7 +116,29 @@ const MainAppContent: React.FC = () => {
             />
           )}
 
-          {currentView === 'dashboard' && <MerchantDashboard />}
+          {currentView === 'dashboard' && (
+            isAuthLoading ? (
+              <div className="panel mx-auto max-w-md p-8 text-center">
+                <p className="font-bold">{language === 'ar' ? 'جار التحقق من حساب التاجر...' : 'Vérification du compte marchand...'}</p>
+              </div>
+            ) : firebaseUser && isOwner ? (
+              <MerchantDashboard />
+            ) : (
+              <div className="panel mx-auto max-w-md space-y-4 p-6 text-center">
+                <ShieldCheck className="mx-auto h-10 w-10 text-[#3d6475]" />
+                <h2 className="text-xl font-black">{language === 'ar' ? 'لوحة التاجر محمية' : 'Espace marchand protégé'}</h2>
+                <p className="text-sm text-[#6e7c86]">
+                  {language === 'ar' ? 'سجّل الدخول بحساب التاجر المصرّح له للوصول إلى الطلبات والتصليحات والتقسيط.' : 'Connectez-vous avec le compte marchand autorisé pour accéder aux données privées.'}
+                </p>
+                <button type="button" onClick={() => void loginWithGoogle()} className="hub-btn hub-btn-primary w-full">
+                  {language === 'ar' ? 'تسجيل الدخول عبر Google' : 'Se connecter avec Google'}
+                </button>
+                <button type="button" onClick={() => setCurrentView('storefront')} className="hub-btn hub-btn-secondary w-full">
+                  {language === 'ar' ? 'العودة إلى المتجر' : 'Retour à la boutique'}
+                </button>
+              </div>
+            )
+          )}
         </main>
       </div>
 
