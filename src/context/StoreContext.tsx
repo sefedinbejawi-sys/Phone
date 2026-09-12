@@ -130,7 +130,17 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // Persistence helpers - start completely empty for fresh testing
   const [products, setProducts] = useState<Product[]>(() => {
     const saved = localStorage.getItem('phonedz_products');
-    return saved ? JSON.parse(saved) : INITIAL_PRODUCTS;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      } catch (e) {
+        console.error('Failed to parse saved products:', e);
+      }
+    }
+    return INITIAL_PRODUCTS;
   });
 
   const [orders, setOrders] = useState<Order[]>(() => {

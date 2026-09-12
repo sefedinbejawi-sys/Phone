@@ -28,7 +28,7 @@ import {
 } from 'lucide-react';
 
 const MainAppContent: React.FC = () => {
-  const { currentView, setCurrentView, toast, hideToast, language, t } = useStore();
+  const { currentView, setCurrentView, toasts, language, t } = useStore();
 
   // Modals state
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -272,25 +272,29 @@ const MainAppContent: React.FC = () => {
       {/* Mobile Sticky Bottom Navigation Bar */}
       <MobileBottomNav />
 
-      {/* Global Toast Notification */}
-      {toast && (
-        <div
-          onClick={hideToast}
-          className={`fixed bottom-20 md:bottom-6 left-4 md:left-6 z-50 px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-bold transition-all cursor-pointer border backdrop-blur-xl ${
-            toast.type === 'success'
-              ? 'bg-emerald-950/90 text-emerald-200 border-emerald-500/40 shadow-emerald-950/50'
-              : toast.type === 'error'
-              ? 'bg-rose-950/90 text-rose-200 border-rose-500/40 shadow-rose-950/50'
-              : toast.type === 'warning'
-              ? 'bg-amber-950/90 text-amber-200 border-amber-500/40 shadow-amber-950/50'
-              : 'bg-[#0e1017]/95 text-white border-white/10'
-          }`}
-        >
-          {toast.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
-          {toast.type === 'error' && <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />}
-          {toast.type === 'warning' && <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />}
-          {toast.type === 'info' && <Sparkles className="w-4 h-4 text-sky-400 shrink-0" />}
-          <span>{toast.message}</span>
+      {/* Global Toast Notifications */}
+      {toasts && toasts.length > 0 && (
+        <div className="fixed bottom-20 md:bottom-6 left-4 md:left-6 z-50 flex flex-col gap-2 pointer-events-none">
+          {toasts.map((toastItem) => (
+            <div
+              key={toastItem.id}
+              className={`px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-bold transition-all border backdrop-blur-xl ${
+                toastItem.type === 'success'
+                  ? 'bg-emerald-950/90 text-emerald-200 border-emerald-500/40 shadow-emerald-950/50'
+                  : toastItem.type === 'error'
+                  ? 'bg-rose-950/90 text-rose-200 border-rose-500/40 shadow-rose-950/50'
+                  : toastItem.type === 'warning'
+                  ? 'bg-amber-950/90 text-amber-200 border-amber-500/40 shadow-amber-950/50'
+                  : 'bg-[#0e1017]/95 text-white border-white/10'
+              }`}
+            >
+              {toastItem.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
+              {toastItem.type === 'error' && <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />}
+              {toastItem.type === 'warning' && <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />}
+              {toastItem.type === 'info' && <Sparkles className="w-4 h-4 text-sky-400 shrink-0" />}
+              <span>{toastItem.message}</span>
+            </div>
+          ))}
         </div>
       )}
     </div>
