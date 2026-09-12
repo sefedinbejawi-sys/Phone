@@ -149,7 +149,7 @@ export const InstallmentSection: React.FC<InstallmentSectionProps> = ({
   };
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="hub-module space-y-8 pb-12">
       {/* Installment Hero Banner */}
       <div className="rounded-3xl bg-gradient-to-br from-sky-950 via-stone-900 to-stone-900 text-white p-6 sm:p-10 border border-sky-900/40 shadow-xl relative overflow-hidden">
         <div className="relative z-10 max-w-3xl space-y-3">

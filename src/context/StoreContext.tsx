@@ -1,22 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import {
-  collection,
-  doc,
-  setDoc,
-  updateDoc,
-  onSnapshot,
-} from 'firebase/firestore';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import {
-  db,
-  auth,
-  loginWithGoogle as fbLoginWithGoogle,
-  logoutUser as fbLogoutUser,
-  isOwnerAdmin,
-  handleFirestoreError,
-  OperationType,
-} from '../lib/firebase';
-import {
   Product,
   Order,
   RepairTicket,
@@ -107,14 +90,6 @@ interface StoreContextType {
   toasts: Toast[];
   showToast: (message: string, type?: 'success' | 'info' | 'warning' | 'error') => void;
 
-  // Firebase & Auth
-  firebaseUser: User | null;
-  isOwner: boolean;
-  isFirebaseConnected: boolean;
-  isAuthLoading: boolean;
-  loginWithGoogle: () => Promise<void>;
-  logout: () => Promise<void>;
-  syncCatalogToFirebase: () => Promise<void>;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -191,137 +166,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  // Firebase integration states
-  const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
-  const [isFirebaseConnected, setIsFirebaseConnected] = useState<boolean>(false);
-  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
-
-  // Monitor Firebase Auth state
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (usr) => {
-      setFirebaseUser(usr);
-      setIsAuthLoading(false);
-      if (usr && (isOwnerAdmin(usr.email) || usr.email?.toLowerCase() === 'jimielbejawi@gmail.com')) {
-        setRole('admin');
-      }
-    });
-    return () => unsubscribe();
-  }, []);
-
-  // Live Firestore synchronization for Orders
-  useEffect(() => {
-    let unsub: (() => void) | undefined;
-    try {
-      unsub = onSnapshot(
-        collection(db, 'orders'),
-        (snapshot) => {
-          setIsFirebaseConnected(true);
-          if (!snapshot.empty) {
-            const list: Order[] = [];
-            snapshot.forEach((snap) => {
-              list.push(snap.data() as Order);
-            });
-            list.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-            setOrders(list);
-          }
-        },
-        (error) => {
-          handleFirestoreError(error, OperationType.GET, 'orders');
-        }
-      );
-    } catch (err) {
-      console.warn('Orders listener error:', err);
-    }
-    return () => {
-      if (unsub) unsub();
-    };
-  }, []);
-
-  // Live Firestore synchronization for Repairs
-  useEffect(() => {
-    let unsub: (() => void) | undefined;
-    try {
-      unsub = onSnapshot(
-        collection(db, 'repairs'),
-        (snapshot) => {
-          setIsFirebaseConnected(true);
-          if (!snapshot.empty) {
-            const list: RepairTicket[] = [];
-            snapshot.forEach((snap) => {
-              list.push(snap.data() as RepairTicket);
-            });
-            list.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-            setRepairs(list);
-          }
-        },
-        (error) => {
-          handleFirestoreError(error, OperationType.GET, 'repairs');
-        }
-      );
-    } catch (err) {
-      console.warn('Repairs listener error:', err);
-    }
-    return () => {
-      if (unsub) unsub();
-    };
-  }, []);
-
-  // Live Firestore synchronization for Installment Plans
-  useEffect(() => {
-    let unsub: (() => void) | undefined;
-    try {
-      unsub = onSnapshot(
-        collection(db, 'installments'),
-        (snapshot) => {
-          setIsFirebaseConnected(true);
-          if (!snapshot.empty) {
-            const list: InstallmentPlan[] = [];
-            snapshot.forEach((snap) => {
-              list.push(snap.data() as InstallmentPlan);
-            });
-            setInstallments(list);
-          }
-        },
-        (error) => {
-          handleFirestoreError(error, OperationType.GET, 'installments');
-        }
-      );
-    } catch (err) {
-      console.warn('Installments listener error:', err);
-    }
-    return () => {
-      if (unsub) unsub();
-    };
-  }, []);
-
-  // Live Firestore synchronization for Products
-  useEffect(() => {
-    let unsub: (() => void) | undefined;
-    try {
-      unsub = onSnapshot(
-        collection(db, 'products'),
-        (snapshot) => {
-          setIsFirebaseConnected(true);
-          if (!snapshot.empty) {
-            const list: Product[] = [];
-            snapshot.forEach((snap) => {
-              list.push(snap.data() as Product);
-            });
-            setProducts(list);
-          }
-        },
-        (error) => {
-          handleFirestoreError(error, OperationType.GET, 'products');
-        }
-      );
-    } catch (err) {
-      console.warn('Products listener error:', err);
-    }
-    return () => {
-      if (unsub) unsub();
-    };
-  }, []);
-
+  // Local-only mode: customer data stays in this browser until a backend is connected.
   // Sync to local storage
   useEffect(() => {
     localStorage.setItem('phonedz_products', JSON.stringify(products));
@@ -448,9 +293,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       id: 'prod-' + Date.now(),
     };
     setProducts((prev) => [newProduct, ...prev]);
-    setDoc(doc(db, 'products', newProduct.id), newProduct).catch((err) => {
-      handleFirestoreError(err, OperationType.CREATE, `products/${newProduct.id}`);
-    });
     showToast(language === 'ar' ? 'تمت إضافة المنتج بنجاح' : 'Produit ajouté avec succès');
   };
 
@@ -458,9 +300,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setProducts((prev) =>
       prev.map((p) => (p.id === id ? { ...p, ...updates } : p))
     );
-    updateDoc(doc(db, 'products', id), updates).catch((err) => {
-      handleFirestoreError(err, OperationType.UPDATE, `products/${id}`);
-    });
     showToast(language === 'ar' ? 'تم تحديث بيانات المنتج' : 'Produit mis à jour');
   };
 
@@ -498,10 +337,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setOrders((prev) => [newOrder, ...prev]);
     clearCart();
 
-    // Persist to Cloud Firestore
-    setDoc(doc(db, 'orders', newOrder.id), newOrder).catch((err) => {
-      handleFirestoreError(err, OperationType.CREATE, `orders/${newOrder.id}`);
-    });
 
     // Deduct stock
     setProducts((prev) =>
@@ -509,7 +344,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const orderedItem = newOrder.items.find((it) => it.productId === prod.id);
         if (orderedItem) {
           const newStock = Math.max(0, prod.stock - orderedItem.quantity);
-          updateDoc(doc(db, 'products', prod.id), { stock: newStock }).catch(() => {});
           return { ...prod, stock: newStock };
         }
         return prod;
@@ -538,13 +372,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       )
     );
 
-    // Update in Cloud Firestore
-    updateDoc(doc(db, 'orders', orderId), {
-      status,
-      ...(trackingCode ? { trackingCode } : {}),
-    }).catch((err) => {
-      handleFirestoreError(err, OperationType.UPDATE, `orders/${orderId}`);
-    });
 
     showToast(
       language === 'ar'
@@ -582,10 +409,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setRepairs((prev) => [newTicket, ...prev]);
     setActiveTrackingTicket(newTicket);
 
-    // Persist to Cloud Firestore
-    setDoc(doc(db, 'repairs', newTicket.id), newTicket).catch((err) => {
-      handleFirestoreError(err, OperationType.CREATE, `repairs/${newTicket.id}`);
-    });
 
     showToast(
       language === 'ar'
@@ -633,68 +456,30 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       })
     );
 
-    // Update in Cloud Firestore
-    if (updatedTicket) {
-      setDoc(doc(db, 'repairs', ticketId), updatedTicket).catch((err) => {
-        handleFirestoreError(err, OperationType.UPDATE, `repairs/${ticketId}`);
-      });
-    }
 
     showToast(
-      language === 'ar'
-        ? `تم تحديث حالة تذكرة التصليح بنجاح`
-        : `Statut du ticket de réparation mis à jour`
+      language === 'ar' ? 'تم تحديث حالة تذكرة التصليح بنجاح' : 'Statut du ticket mis à jour'
     );
   };
 
   const findRepairByTicket = (ticketNumber: string) => {
     const clean = ticketNumber.trim().toUpperCase();
-    return repairs.find((r) => r.ticketNumber.toUpperCase() === clean);
+    return repairs.find((repair) => repair.ticketNumber.toUpperCase() === clean);
   };
 
-  // Installments
   const createInstallmentPlan = (
     data: Omit<InstallmentPlan, 'id' | 'planNumber' | 'startDate' | 'status' | 'schedule'>
   ): InstallmentPlan => {
-    const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-    const planNumber = `INST-DZ-${randomSuffix}`;
-    const now = new Date();
-    const dateStr = now.toISOString().split('T')[0];
-
-    // Build schedule
-    const schedule: InstallmentPlan['schedule'] = [];
-    for (let i = 1; i <= data.totalMonths; i++) {
+    const planNumber = `INST-DZ-${Math.floor(1000 + Math.random() * 9000)}`;
+    const startDate = new Date().toISOString().split('T')[0];
+    const schedule: InstallmentPlan['schedule'] = Array.from({ length: data.totalMonths }, (_, index) => {
       const dueDate = new Date();
-      dueDate.setMonth(dueDate.getMonth() + i);
-      schedule.push({
-        installmentNumber: i,
-        dueDate: dueDate.toISOString().split('T')[0],
-        amount: data.monthlyAmount,
-        status: 'pending',
-      });
-    }
-
-    const newPlan: InstallmentPlan = {
-      ...data,
-      id: 'inst-' + Date.now(),
-      planNumber,
-      startDate: dateStr,
-      status: 'active',
-      schedule,
-    };
-
-    setInstallments((prev) => [newPlan, ...prev]);
-
-    // Persist to Cloud Firestore
-    setDoc(doc(db, 'installments', newPlan.id), newPlan).catch((err) => {
-      handleFirestoreError(err, OperationType.CREATE, `installments/${newPlan.id}`);
+      dueDate.setMonth(dueDate.getMonth() + index + 1);
+      return { installmentNumber: index + 1, dueDate: dueDate.toISOString().split('T')[0], amount: data.monthlyAmount, status: 'pending' as const };
     });
-
-    showToast(
-      language === 'ar'
-        ? `تم إنشاء ملف التقسيط بنجاح #${planNumber}`
-        : `Dossier de facilité créé avec succès #${planNumber}`
-    );
+    const newPlan: InstallmentPlan = { ...data, id: `inst-${Date.now()}`, planNumber, startDate, status: 'active', schedule };
+    setInstallments((prev) => [newPlan, ...prev]);
+    showToast(language === 'ar' ? `تم إنشاء ملف التقسيط #${planNumber}` : `Dossier créé #${planNumber}`);
     return newPlan;
   };
 
@@ -737,13 +522,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       })
     );
 
-    // Update in Cloud Firestore
-    if (updatedPlan) {
-      setDoc(doc(db, 'installments', planId), updatedPlan).catch((err) => {
-        handleFirestoreError(err, OperationType.UPDATE, `installments/${planId}`);
-      });
-    }
-
     showToast(
       language === 'ar'
         ? `تم تسجيل دفع القسط رقم ${installmentNumber} بنجاح`
@@ -761,50 +539,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         inst.planNumber.toLowerCase().includes(q) ||
         inst.customerName.toLowerCase().includes(q)
     );
-  };
-
-  // Auth & Sync helpers
-  const loginWithGoogle = async () => {
-    try {
-      const usr = await fbLoginWithGoogle();
-      if (usr) {
-        showToast(
-          language === 'ar'
-            ? `مرحباً بك، ${usr.displayName || usr.email}`
-            : `Bienvenue, ${usr.displayName || usr.email}`
-        );
-      }
-    } catch (err) {
-      console.error(err);
-      showToast(
-        language === 'ar' ? 'تعذر تسجيل الدخول عبر Google' : 'Échec de connexion Google',
-        'error'
-      );
-    }
-  };
-
-  const logout = async () => {
-    await fbLogoutUser();
-    showToast(
-      language === 'ar' ? 'تم تسجيل الخروج بنجاح' : 'Déconnexion réussie',
-      'info'
-    );
-  };
-
-  const syncCatalogToFirebase = async () => {
-    try {
-      for (const prod of products) {
-        await setDoc(doc(db, 'products', prod.id), prod);
-      }
-      showToast(
-        language === 'ar'
-          ? 'تم رفع وتحديث كافة منتجات المتجر في سحابة Firebase Firestore بنجاح ☁️'
-          : 'Catalogue synchronisé avec Firebase Firestore ☁️',
-        'success'
-      );
-    } catch (err) {
-      handleFirestoreError(err, OperationType.WRITE, 'products');
-    }
   };
 
   const clearAllDashboardData = () => {
@@ -881,13 +615,6 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         toasts,
         showToast,
         wilayas: ALGERIA_WILAYAS,
-        firebaseUser,
-        isOwner: isOwnerAdmin(firebaseUser?.email),
-        isFirebaseConnected,
-        isAuthLoading,
-        loginWithGoogle,
-        logout,
-        syncCatalogToFirebase,
       }}
     >
       {children}

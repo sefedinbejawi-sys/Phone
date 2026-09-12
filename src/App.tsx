@@ -28,7 +28,7 @@ import {
 } from 'lucide-react';
 
 const MainAppContent: React.FC = () => {
-  const { currentView, setCurrentView, toasts, language, t, firebaseUser, isOwner, isAuthLoading, loginWithGoogle } = useStore();
+  const { currentView, setCurrentView, toasts, language, t } = useStore();
 
   // Modals state
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -61,35 +61,6 @@ const MainAppContent: React.FC = () => {
         {/* Main Sticky Header */}
         <Header />
 
-        {/* Global Floating Trust Banner */}
-        <div className="bg-[#0b0d14]/90 border-b border-white/10 py-2.5 px-4 text-xs backdrop-blur-md">
-          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-6 flex-wrap">
-              <span className="flex items-center gap-1.5 font-medium text-neutral-300">
-                <Truck className="w-4 h-4 text-emerald-400" />
-                <span>{language === 'ar' ? 'توصيل منزلي ومكاتب لـ 58 ولاية' : 'Livraison 58 wilayas à domicile et stop-desk'}</span>
-              </span>
-              <span className="hidden sm:flex items-center gap-1.5 font-medium text-neutral-300">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                <span>{language === 'ar' ? 'افحص هاتفك قبل الدفع للموزع' : 'Ouvrez et testez avant de payer'}</span>
-              </span>
-              <span className="hidden md:flex items-center gap-1.5 font-medium text-neutral-300">
-                <Banknote className="w-4 h-4 text-emerald-400" />
-                <span>{language === 'ar' ? 'دفع عند الاستلام بعد المعاينة' : 'Paiement COD après vérification'}</span>
-              </span>
-              <span className="hidden lg:flex items-center gap-1.5 font-medium text-neutral-300">
-                <Wrench className="w-4 h-4 text-amber-400" />
-                <span>{language === 'ar' ? 'صيانة فورية بقطع أصلية وضمان' : 'Atelier réparation certifié'}</span>
-              </span>
-            </div>
-
-            <div className="flex items-center gap-2 text-[11px] font-mono text-emerald-400 font-bold">
-              <span>{language === 'ar' ? 'متصل الآن بالشبكة الجزائرية' : 'Réseaux DZ connectés'}</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            </div>
-          </div>
-        </div>
-
         {/* Main Content Area based on currentView */}
         <main className="max-w-2xl mx-auto w-full px-4 py-5">
           {currentView === 'storefront' && (
@@ -116,29 +87,7 @@ const MainAppContent: React.FC = () => {
             />
           )}
 
-          {currentView === 'dashboard' && (
-            isAuthLoading ? (
-              <div className="panel mx-auto max-w-md p-8 text-center">
-                <p className="font-bold">{language === 'ar' ? 'جار التحقق من حساب التاجر...' : 'Vérification du compte marchand...'}</p>
-              </div>
-            ) : firebaseUser && isOwner ? (
-              <MerchantDashboard />
-            ) : (
-              <div className="panel mx-auto max-w-md space-y-4 p-6 text-center">
-                <ShieldCheck className="mx-auto h-10 w-10 text-[#3d6475]" />
-                <h2 className="text-xl font-black">{language === 'ar' ? 'لوحة التاجر محمية' : 'Espace marchand protégé'}</h2>
-                <p className="text-sm text-[#6e7c86]">
-                  {language === 'ar' ? 'سجّل الدخول بحساب التاجر المصرّح له للوصول إلى الطلبات والتصليحات والتقسيط.' : 'Connectez-vous avec le compte marchand autorisé pour accéder aux données privées.'}
-                </p>
-                <button type="button" onClick={() => void loginWithGoogle()} className="hub-btn hub-btn-primary w-full">
-                  {language === 'ar' ? 'تسجيل الدخول عبر Google' : 'Se connecter avec Google'}
-                </button>
-                <button type="button" onClick={() => setCurrentView('storefront')} className="hub-btn hub-btn-secondary w-full">
-                  {language === 'ar' ? 'العودة إلى المتجر' : 'Retour à la boutique'}
-                </button>
-              </div>
-            )
-          )}
+          {currentView === 'dashboard' && <MerchantDashboard />}
         </main>
       </div>
 

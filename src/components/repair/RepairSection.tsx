@@ -204,7 +204,7 @@ export const RepairSection: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="hub-module space-y-8 pb-12">
       {/* Repair Section Hero */}
       <div className="rounded-3xl bg-gradient-to-br from-amber-950 via-stone-900 to-stone-900 text-white p-6 sm:p-10 border border-amber-900/40 shadow-xl relative overflow-hidden">
         <div className="relative z-10 max-w-3xl space-y-3">
