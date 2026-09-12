@@ -1,24 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;600;700;800&display=swap');
 @import "tailwindcss";
 
+:root {
+  --steel-950: #1b2025;
+  --steel-900: #252a30;
+  --steel-800: #343b43;
+  --steel-700: #46515b;
+  --copper: #c86b3c;
+  --copper-light: #e28a58;
+  --board-blue: #3d6475;
+  --ivory: #f1e9dc;
+  --muted: #aeb6bb;
+}
+
 @layer base {
+  html { background: var(--steel-950); }
   body {
-    font-family: 'Tajawal', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    min-width: 320px;
+    background:
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+      var(--steel-950);
+    background-size: 32px 32px;
+    color: var(--ivory);
+    font-family: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+    text-rendering: optimizeLegibility;
   }
+  button, input, select, textarea { font: inherit; }
+  h1, h2, h3, h4, h5, h6 { font-family: 'Noto Kufi Arabic', sans-serif; }
+  ::selection { background: var(--copper); color: #fff; }
 }
 
-/* Custom dark luxury scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #0b0c10;
-}
-::-webkit-scrollbar-thumb {
-  background: #232733;
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #374151;
+/* Industrial surfaces: less glass, more workshop material. */
+.bg-\[\#07080c\], .bg-\[\#08090d\], .bg-\[\#0b0d14\], .bg-\[\#0e1017\] { background-color: var(--steel-950) !important; }
+.text-neutral-100, .text-white { color: var(--ivory); }
+.text-neutral-300, .text-neutral-400 { color: var(--muted); }
+.border-white\/10, .border-white\/15 { border-color: rgba(241,233,220,.16) !important; }
+.bg-white\/\[0\.035\], .bg-white\/\[0\.04\], .bg-white\/\[0\.05\], .bg-white\/\[0\.02\] {
+  background: linear-gradient(135deg, rgba(70,81,91,.42), rgba(37,42,48,.72)) !important;
 }
 
+/* Replace the old multi-neon accent system with copper + board blue. */
+.text-emerald-400, .text-emerald-300, .text-emerald-200,
+.text-amber-400, .text-amber-300, .text-amber-200,
+.text-red-400, .text-red-300, .text-rose-400, .text-purple-400 { color: var(--copper) !important; }
+.bg-emerald-400, .bg-emerald-500, .bg-amber-400, .bg-red-600, .bg-purple-400 { background-color: var(--copper) !important; }
+.border-emerald-400\/30, .border-emerald-400\/40, .border-amber-400\/30, .border-red-500\/40 { border-color: rgba(200,107,60,.55) !important; }
+
+/* One coordinated entrance motion for the page shell. */
+#root { animation: workshop-arrival .55s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes workshop-arrival {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile-first content rhythm and thumb-safe bottom space. */
+main { width: 100%; box-sizing: border-box; }
+main > div { max-width: 860px; margin-inline: auto; }
+
+/* Hero: make it read as a metal inspection panel instead of a stock-photo banner. */
+main img[src*="unsplash"] { filter: grayscale(.62) sepia(.18) contrast(1.18) brightness(.48) !important; }
+main img[src*="unsplash"] + div { background: linear-gradient(to top, var(--steel-950) 5%, rgba(27,32,37,.74) 58%, transparent) !important; }
+
+/* Product tiles: compact catalogue drawers with a single copper action. */
+article, [class*="rounded-[2rem]"], [class*="rounded-[2.2rem]"] { border-radius: 14px !important; }
+button { -webkit-tap-highlight-color: transparent; }
+
+@media (max-width: 767px) {
+  body { padding-bottom: env(safe-area-inset-bottom); }
+  header { position: sticky; top: 0; }
+  header form { display: none !important; }
+  main { padding: 14px 12px 104px !important; }
+  main > div { width: 100%; }
+  footer { margin-top: 2rem !important; padding-bottom: 112px !important; }
+  footer .grid { grid-template-columns: 1fr !important; gap: 1.25rem !important; }
+  /* The hero is a portrait inspection board on narrow screens. */
+  main img[src*="unsplash"] { height: 220px !important; object-position: center !important; }
+  /* Keep category controls on one readable line without horizontal page overflow. */
+  main .overflow-x-auto { scrollbar-width: none; max-width: 100%; }
+  main .overflow-x-auto::-webkit-scrollbar { display: none; }
+  /* Two-column catalogue with large enough touch targets. */
+  main .grid.grid-cols-1.sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
+  main .grid.grid-cols-1.sm\:grid-cols-2 button { min-height: 44px; }
+  /* Make key actions thumb-friendly and visually anchored. */
+  main button { min-height: 44px; }
+  nav[aria-label="Mobile Navigation"] { background: var(--steel-900) !important; border-top: 2px solid var(--copper) !important; padding-bottom: calc(6px + env(safe-area-inset-bottom)) !important; }
+  nav[aria-label="Mobile Navigation"] button { min-height: 56px; }
+  nav[aria-label="Mobile Navigation"] span { font-size: 11px !important; }
+  /* Keep floating WhatsApp above the navigation without competing with it. */
+  button[title="تواصل معنا عبر واتساب"] { bottom: 92px !important; right: 14px !important; background: var(--copper) !important; box-shadow: 0 8px 24px rgba(0,0,0,.35) !important; }
+}
+
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: var(--steel-950); }
+::-webkit-scrollbar-thumb { background: var(--steel-700); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--copper); }
