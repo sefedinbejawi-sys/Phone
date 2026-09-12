@@ -187,9 +187,9 @@ export const MerchantDashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 pb-16">
+    <div className="merchant-dashboard space-y-8 pb-16">
       {/* Dashboard Topbar */}
-      <div className="bg-stone-900 text-white rounded-3xl p-6 sm:p-8 border border-stone-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="merchant-dashboard-hero bg-stone-900 text-white rounded-3xl p-6 sm:p-8 border border-stone-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-lg bg-purple-500/20 text-purple-400">
@@ -332,7 +332,7 @@ export const MerchantDashboard: React.FC = () => {
       {activeTab === 'analytics' && (
         <div className="space-y-8">
           {/* Key Metrics Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="merchant-metrics grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="bg-white p-5 rounded-3xl border border-stone-200 shadow-sm space-y-2">
               <div className="flex items-center justify-between text-stone-500 text-xs">
                 <span>{language === 'ar' ? 'المبيعات المسلمة (COD):' : 'Ventes livrées:'}</span>
@@ -1331,7 +1331,7 @@ export const MerchantDashboard: React.FC = () => {
 
       {/* TAB 5: Inventory & Products */}
       {activeTab === 'inventory' && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-sm space-y-6">
+        <div className="inventory-panel bg-white rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-200 pb-4">
             <div>
               <h2 className="text-lg sm:text-xl font-black text-stone-900">
@@ -1351,8 +1351,8 @@ export const MerchantDashboard: React.FC = () => {
             </button>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-xs text-right border-collapse">
+          <div className="inventory-table-wrap overflow-x-auto">
+            <table className="inventory-table w-full text-xs text-right border-collapse">
               <thead>
                 <tr className="bg-stone-100 text-stone-800 border-b border-stone-200">
                   <th className="p-3 font-bold">المنتج</th>
@@ -1366,14 +1366,11 @@ export const MerchantDashboard: React.FC = () => {
               <tbody className="divide-y divide-stone-200 text-stone-700">
                 {products.map((p) => (
                   <tr key={p.id} className="hover:bg-stone-50">
-                    <td className="p-3 font-bold text-stone-900 flex items-center gap-2">
-                      <img
-                        src={p.images[0]}
-                        alt={p.name}
-                        className="w-8 h-8 rounded object-contain bg-white border border-stone-200"
-                        referrerPolicy="no-referrer"
-                      />
-                      <span>{p.name}</span>
+                    <td className="inventory-product-cell p-3 font-bold text-stone-900 flex items-center gap-2">
+                      <div className="inventory-product-frame">
+                        <img src={p.images[0]} alt={p.name} referrerPolicy="no-referrer" />
+                      </div>
+                      <span className="inventory-product-name">{p.name}</span>
                     </td>
                     <td className="p-3 font-medium text-stone-600">
                       {p.brand} ({p.category})
