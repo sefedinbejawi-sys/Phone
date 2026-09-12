@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#2a0808" />
+      <stop offset="65%" stop-color="#0e0a12" />
+      <stop offset="100%" stop-color="#050608" />
+    </radialGradient>
+
+    <!-- Red Ring Gradient -->
+    <linearGradient id="redRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff334b" />
+      <stop offset="50%" stop-color="#d91438" />
+      <stop offset="100%" stop-color="#8b001a" />
+    </linearGradient>
+
+    <!-- Gold Accent Gradient -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe28a" />
+      <stop offset="40%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+
+    <!-- Phone Glass Gradient -->
+    <linearGradient id="phoneBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e2230" />
+      <stop offset="50%" stop-color="#11141c" />
+      <stop offset="100%" stop-color="#08090d" />
+    </linearGradient>
+
+    <!-- Emerald Tech Accent -->
+    <linearGradient id="emeraldGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filters -->
+    <filter id="glowRed" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowGold" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Outer Base Circle -->
+  <circle cx="200" cy="200" r="192" fill="url(#bgGlow)" stroke="url(#redRing)" stroke-width="7" />
+  <circle cx="200" cy="200" r="182" fill="none" stroke="url(#goldGradient)" stroke-width="2" stroke-dasharray="6 4" opacity="0.8" />
+  <circle cx="200" cy="200" r="172" fill="#080a10" stroke="#ff2a4b" stroke-width="1.5" opacity="0.5" />
+
+  <!-- Subtle Circuit Pattern Background -->
+  <g opacity="0.15" stroke="#ff4757" stroke-width="1.5" fill="none">
+    <path d="M 60 140 H 120 L 140 160 V 220" />
+    <circle cx="60" cy="140" r="3" fill="#ff4757" />
+    <path d="M 340 140 H 280 L 260 160 V 220" />
+    <circle cx="340" cy="140" r="3" fill="#ff4757" />
+    <path d="M 70 260 H 130 L 150 240" />
+    <circle cx="70" cy="260" r="3" fill="#ff4757" />
+    <path d="M 330 260 H 270 L 250 240" />
+    <circle cx="330" cy="260" r="3" fill="#ff4757" />
+  </g>
+
+  <!-- Top Curved / Header Ribbon Area for "حمتين تيليكوم" -->
+  <g id="arabicStoreName" filter="url(#glowRed)">
+    <!-- Dark Backing Plate for Text -->
+    <rect x="55" y="44" width="290" height="66" rx="20" fill="#14070a" stroke="url(#redRing)" stroke-width="2.5" />
+    <!-- Arabic Brand Name in White with Red Shadow -->
+    <text x="200" y="88" 
+          text-anchor="middle" 
+          font-family="system-ui, -apple-system, 'Segoe UI', Cairo, Tajawal, Arial, sans-serif" 
+          font-size="34" 
+          font-weight="900" 
+          fill="#ffffff"
+          letter-spacing="0.5">
+      حمتين تيليكوم
+    </text>
+  </g>
+
+  <!-- Center Stylized Smartphone Element -->
+  <g transform="translate(142, 126)">
+    <!-- Phone Shadow -->
+    <rect x="4" y="6" width="112" height="170" rx="22" fill="#000000" opacity="0.6" />
+    <!-- Phone Chassis -->
+    <rect x="0" y="0" width="116" height="174" rx="22" fill="url(#phoneBody)" stroke="url(#goldGradient)" stroke-width="2.5" />
+    <!-- Phone Screen with Inner Glow -->
+    <rect x="5" y="5" width="106" height="164" rx="18" fill="#0c0e17" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1" />
+
+    <!-- Dynamic Island / Speaker Grill -->
+    <rect x="42" y="10" width="32" height="7" rx="3.5" fill="#000000" stroke="#333" stroke-width="0.5" />
+    <circle cx="68" cy="13.5" r="1.5" fill="#10b981" opacity="0.8" />
+
+    <!-- Screen Tech Graphics: Concentric MagSafe Ring -->
+    <circle cx="58" cy="85" r="28" fill="none" stroke="url(#redRing)" stroke-width="2.5" stroke-dasharray="14 6" opacity="0.9" />
+    <circle cx="58" cy="85" r="12" fill="none" stroke="url(#goldGradient)" stroke-width="2" />
+    <circle cx="58" cy="85" r="3" fill="#ffe28a" />
+
+    <!-- Camera Lens Reflections on Screen -->
+    <path d="M 12 18 L 40 18 L 12 60 Z" fill="#ffffff" opacity="0.04" />
+  </g>
+
+  <!-- Branch 4 Badge ("فرع 4") with 3D Star Banner (Iconic from User's Image) -->
+  <g transform="translate(200, 268)" filter="url(#glowGold)">
+    <!-- Golden Star Backdrop -->
+    <path d="M 0 -38 L 10 -14 L 36 -12 L 16 7 L 22 32 L 0 18 L -22 32 L -16 7 L -36 -12 L -10 -14 Z" 
+          fill="url(#goldGradient)" 
+          stroke="#fff" 
+          stroke-width="1" />
+    
+    <!-- Red Center Badge Plate -->
+    <rect x="-75" y="-18" width="150" height="38" rx="12" fill="#8b001a" stroke="url(#goldGradient)" stroke-width="2" />
+    
+    <!-- Number 4 & Branch Text in Arabic -->
+    <text x="0" y="8" 
+          text-anchor="middle" 
+          font-family="system-ui, -apple-system, Cairo, Arial, sans-serif" 
+          font-weight="900" 
+          font-size="22" 
+          fill="#ffffff">
+      فرع <tspan fill="#fef08a" font-size="26" font-weight="950">4</tspan>
+    </text>
+  </g>
+
+  <!-- Bottom Brand Subtitle: HAMTINE TELECOM 4 • EL OUED -->
+  <g transform="translate(200, 342)">
+    <rect x="-135" y="-16" width="270" height="32" rx="16" fill="#0f111a" stroke="url(#redRing)" stroke-width="1.5" />
+    <text x="0" y="5" 
+          text-anchor="middle" 
+          font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" 
+          font-size="12" 
+          font-weight="800" 
+          letter-spacing="2" 
+          fill="#f3f4f6">
+      HAMTINE TELECOM 4
+    </text>
+  </g>
+
+  <!-- Location Tag: EL OUED • الوادي -->
+  <text x="200" y="380" 
+        text-anchor="middle" 
+        font-family="system-ui, -apple-system, Cairo, sans-serif" 
+        font-size="11" 
+        font-weight="700" 
+        letter-spacing="1" 
+        fill="#9ca3af">
+    ولاية الوادي • حي الاستقلال • مفترق طرق الملاح
+  </text>
+
+  <!-- Left & Right Golden Verified Stars -->
+  <path d="M 50 200 L 53 208 L 62 209 L 55 215 L 57 223 L 50 219 L 43 223 L 45 215 L 38 209 L 47 208 Z" fill="url(#goldGradient)" />
+  <path d="M 350 200 L 353 208 L 362 209 L 355 215 L 357 223 L 350 219 L 343 223 L 345 215 L 338 209 L 347 208 Z" fill="url(#goldGradient)" />
+</svg>
