@@ -65,9 +65,9 @@ export const StoreHeroHeader: React.FC<StoreHeroHeaderProps> = ({
       {/* Store Card Container - Inspired by Showly Atelier Nova */}
       <div className="overflow-hidden rounded-[2.2rem] border border-white/10 bg-white/[0.035] backdrop-blur-2xl shadow-2xl relative">
         {/* Cover Photo with Atmospheric Gradient Fade */}
-        <div className="relative h-52 sm:h-64 md:h-80 w-full overflow-hidden">
+        <div className="relative h-52 sm:h-64 md:h-80 w-full overflow-hidden store-hero-cover">
           <img
-            src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1920&q=85"
+            src="/hero-phones.jpg"
             alt="Hamtine Telecom 4 Showroom"
             className="w-full h-full object-cover object-center filter brightness-[0.6] contrast-[1.15] scale-105 transition-transform duration-1000 hover:scale-100"
             referrerPolicy="no-referrer"
@@ -111,7 +111,7 @@ export const StoreHeroHeader: React.FC<StoreHeroHeaderProps> = ({
         </div>
 
         {/* Profile Content Body */}
-        <div className="relative px-5 sm:px-8 pb-8 -mt-16 sm:-mt-20">
+        <div className="relative px-5 sm:px-8 pb-8 -mt-16 sm:-mt-20 store-hero-body">
           <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
             {/* Left: Avatar Monogram Logo + Store Identity */}
             <div className="flex flex-col sm:flex-row items-start sm:items-end gap-5">
