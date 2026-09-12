@@ -534,10 +534,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (!q) return [];
     return installments.filter(
       (inst) =>
-        inst.phone.includes(q) ||
-        inst.nationalIdNumber.includes(q) ||
-        inst.planNumber.toLowerCase().includes(q) ||
-        inst.customerName.toLowerCase().includes(q)
+        Boolean(inst.phone && inst.phone.includes(q)) ||
+        Boolean(inst.nationalIdNumber && inst.nationalIdNumber.includes(q)) ||
+        Boolean(inst.planNumber && inst.planNumber.toLowerCase().includes(q)) ||
+        Boolean(inst.customerName && inst.customerName.toLowerCase().includes(q))
     );
   };
 

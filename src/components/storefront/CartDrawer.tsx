@@ -26,7 +26,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
         {/* Cart Header */}
         <div className="p-5 bg-[#08090d] text-white flex items-center justify-between border-b border-white/10">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center text-emerald-400">
+            <div className="w-8 h-8 rounded-xl bg-[#c2410c]/20 border border-[#c2410c]/30 flex items-center justify-center text-[#f97316]">
               <ShoppingBag className="w-4 h-4" />
             </div>
             <h3 className="font-extrabold text-base text-white">
@@ -53,7 +53,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
               </p>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="mt-2 px-5 py-2.5 rounded-xl bg-emerald-400 text-[#08090d] text-xs font-black hover:bg-emerald-300 transition cursor-pointer"
+                className="mt-2 px-5 py-2.5 rounded-xl bg-[#c2410c] hover:bg-[#ea580c] text-white text-xs font-black transition cursor-pointer"
               >
                 {language === 'ar' ? 'تصفح تشكيلة الهواتف' : 'Voir les smartphones'}
               </button>
@@ -122,7 +122,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
             <div className="flex items-center justify-between text-sm font-bold text-neutral-300">
               <span>{t.subtotalText}</span>
               <span className="text-white text-lg font-black">
-                {cartTotal.toLocaleString()} <span className="text-emerald-400 text-sm">{t.currency}</span>
+                {cartTotal.toLocaleString()} <span className="text-[#f97316] text-sm">{t.currency}</span>
               </span>
             </div>
 
@@ -135,7 +135,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
                 setIsCartOpen(false);
                 onOpenCheckout();
               }}
-              className="w-full py-4 px-4 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-[#08090d] font-black text-sm flex items-center justify-center gap-2 shadow-[0_8px_30px_rgba(52,211,153,0.3)] transition cursor-pointer"
+              className="w-full py-4 px-4 rounded-2xl bg-gradient-to-r from-[#ea580c] to-[#c2410c] hover:from-[#f97316] hover:to-[#ea580c] text-white font-black text-sm flex items-center justify-center gap-2 shadow-[0_8px_30px_rgba(194,65,12,0.35)] transition cursor-pointer"
             >
               <Zap className="w-4 h-4 fill-current" />
               <span>{language === 'ar' ? 'متابعة الدفع السريع (COD)' : 'Passer la commande (COD)'}</span>

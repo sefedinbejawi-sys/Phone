@@ -63,6 +63,11 @@ export interface Product {
   reviewCount: number;
   featured?: boolean;
   tags?: string[];
+  wilayaName?: string;
+  verifiedVendor?: boolean;
+  boostBadge?: 'featured' | 'hot' | 'sale' | 'bestseller';
+  deliveryMethodBadge?: string;
+  storeName?: string;
 }
 
 export interface Review {
