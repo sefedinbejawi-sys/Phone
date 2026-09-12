@@ -252,3 +252,32 @@ button.hub-benefit { width: 100%; cursor: pointer; }
   .hub-hero-content { gap: 12px; }
   .hub-hero h1 { font-size: 21px; }
 }
+
+/* Mobile bottom controls: always visible, readable, and separated from content. */
+@media (max-width: 767px) {
+  .store-app-shell { padding-bottom: 88px !important; }
+  .store-app-shell main { padding-bottom: 110px !important; }
+  .hub-bottom-nav {
+    display: block !important;
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom)) !important;
+    background: rgba(255,255,255,.98) !important;
+    border-top: 1px solid #d7e0e5 !important;
+    box-shadow: 0 -7px 22px rgba(31,48,62,.16) !important;
+    backdrop-filter: blur(16px);
+  }
+  .hub-bottom-nav > div { min-height: 62px !important; }
+  .hub-bottom-nav-item {
+    min-width: 58px !important;
+    min-height: 62px !important;
+    gap: 3px !important;
+    color: #7b8992 !important;
+    font-family: 'Cairo', sans-serif !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+  }
+  .hub-bottom-nav-item.is-active { color: #0876d8 !important; font-weight: 900 !important; }
+  .hub-bottom-icon { display: grid; width: 37px; height: 34px; place-items: center; border-radius: 10px; }
+  .hub-bottom-nav-item.is-active .hub-bottom-icon { background: #e6f2ff; }
+  .hub-bottom-nav-item:hover { color: #0876d8 !important; }
+}
