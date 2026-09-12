@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
+    "deploy:firebase": "vite build && firebase deploy --only hosting",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
