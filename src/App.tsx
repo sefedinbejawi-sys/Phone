@@ -55,22 +55,7 @@ const MainAppContent: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#07080c] text-neutral-100 flex flex-col justify-between selection:bg-red-500/30 selection:text-red-200 relative overflow-x-hidden pb-20 md:pb-0">
-      {/* High-Tech Dot Matrix Pattern & Ambient Studio Lighting */}
-      <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-40"
-        style={{
-          backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
-        }}
-      />
-      <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-70"
-        style={{
-          background:
-            'radial-gradient(circle at 80% 8%, rgba(225, 29, 72, 0.12), transparent 32%), radial-gradient(circle at 15% 25%, rgba(245, 158, 11, 0.07), transparent 28%), radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.06), transparent 32%), radial-gradient(circle at 20% 85%, rgba(14, 165, 233, 0.05), transparent 30%)',
-        }}
-      />
+    <div className="min-h-screen store-app-shell flex flex-col justify-between selection:bg-[#c86b3c]/30 selection:text-[#193247] relative overflow-x-hidden pb-20 md:pb-0">
 
       <div className="relative z-10">
         {/* Main Sticky Header */}
@@ -106,7 +91,7 @@ const MainAppContent: React.FC = () => {
         </div>
 
         {/* Main Content Area based on currentView */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <main className="max-w-2xl mx-auto w-full px-4 py-5">
           {currentView === 'storefront' && (
             <div className="space-y-6">
               {/* Showly-inspired Luxury Hero Header */}

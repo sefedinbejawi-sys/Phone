@@ -1,211 +1,211 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --steel-950: #1b2025;
-  --steel-900: #252a30;
-  --steel-800: #343b43;
-  --steel-700: #46515b;
-  --copper: #c86b3c;
-  --copper-light: #e28a58;
-  --board-blue: #3d6475;
-  --ivory: #f1e9dc;
-  --muted: #aeb6bb;
+  --hub-bg: #eef1f4;
+  --hub-card: #ffffff;
+  --hub-steel: #24313d;
+  --hub-steel-2: #344552;
+  --hub-blue: #3d6475;
+  --hub-copper: #c86b3c;
+  --hub-text: #1f2b35;
+  --hub-muted: #6e7c86;
+  --hub-border: #dce3e8;
+  --hub-shadow: 0 8px 24px -14px rgba(31, 48, 62, .35);
 }
 
 @layer base {
-  html { background: var(--steel-950); }
+  * { border-color: var(--hub-border); }
+  html { background: var(--hub-bg); }
   body {
     margin: 0;
     min-width: 320px;
-    background:
-      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
-      linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-      var(--steel-950);
-    background-size: 32px 32px;
-    color: var(--ivory);
+    background: var(--hub-bg);
+    color: var(--hub-text);
     font-family: 'IBM Plex Sans Arabic', system-ui, sans-serif;
     text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
   }
+  h1, h2, h3, h4, h5, h6 { font-family: 'Cairo', sans-serif; }
   button, input, select, textarea { font: inherit; }
-  h1, h2, h3, h4, h5, h6 { font-family: 'Noto Kufi Arabic', sans-serif; }
-  ::selection { background: var(--copper); color: #fff; }
 }
 
-/* Industrial surfaces: less glass, more workshop material. */
-.bg-\[\#07080c\], .bg-\[\#08090d\], .bg-\[\#0b0d14\], .bg-\[\#0e1017\] { background-color: var(--steel-950) !important; }
-.text-neutral-100, .text-white { color: var(--ivory); }
-.text-neutral-300, .text-neutral-400 { color: var(--muted); }
-.border-white\/10, .border-white\/15 { border-color: rgba(241,233,220,.16) !important; }
-.bg-white\/\[0\.035\], .bg-white\/\[0\.04\], .bg-white\/\[0\.05\], .bg-white\/\[0\.02\] {
-  background: linear-gradient(135deg, rgba(70,81,91,.42), rgba(37,42,48,.72)) !important;
+/* Algiers Mobile Hub language: a narrow mobile storefront, not a dashboard. */
+.store-app-shell { background: var(--hub-bg) !important; color: var(--hub-text) !important; }
+.store-app-shell > .relative.z-10 { width: 100%; }
+.store-app-shell main { max-width: 42rem !important; width: 100%; }
+.store-app-shell footer { max-width: 42rem; width: 100%; margin-inline: auto; }
+
+/* Keep the existing feature-rich header, but give it the Hub's steel identity. */
+.store-header {
+  background: var(--hub-steel) !important;
+  color: #f7fafb !important;
+  border: 0 !important;
+  box-shadow: 0 4px 18px rgba(22, 38, 50, .18) !important;
 }
-
-/* Replace the old multi-neon accent system with copper + board blue. */
-.text-emerald-400, .text-emerald-300, .text-emerald-200,
-.text-amber-400, .text-amber-300, .text-amber-200,
-.text-red-400, .text-red-300, .text-rose-400, .text-purple-400 { color: var(--copper) !important; }
-.bg-emerald-400, .bg-emerald-500, .bg-amber-400, .bg-red-600, .bg-purple-400 { background-color: var(--copper) !important; }
-.border-emerald-400\/30, .border-emerald-400\/40, .border-amber-400\/30, .border-red-500\/40 { border-color: rgba(200,107,60,.55) !important; }
-
-/* One coordinated entrance motion for the page shell. */
-#root { animation: workshop-arrival .55s cubic-bezier(.2,.8,.2,1) both; }
-@keyframes workshop-arrival {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Mobile-first content rhythm and thumb-safe bottom space. */
-main { width: 100%; box-sizing: border-box; }
-main > div { max-width: 860px; margin-inline: auto; }
-
-/* Hero: make it read as a metal inspection panel instead of a stock-photo banner. */
-main img[src*="unsplash"] { filter: grayscale(.62) sepia(.18) contrast(1.18) brightness(.48) !important; }
-main img[src*="unsplash"] + div { background: linear-gradient(to top, var(--steel-950) 5%, rgba(27,32,37,.74) 58%, transparent) !important; }
-
-/* Product tiles: compact catalogue drawers with a single copper action. */
-article, [class*="rounded-[2rem]"], [class*="rounded-[2.2rem]"] { border-radius: 14px !important; }
-button { -webkit-tap-highlight-color: transparent; }
-
-@media (max-width: 767px) {
-  body { padding-bottom: env(safe-area-inset-bottom); }
-  header { position: sticky; top: 0; }
-  header form { display: none !important; }
-  main { padding: 14px 12px 104px !important; }
-  main > div { width: 100%; }
-  footer { margin-top: 2rem !important; padding-bottom: 112px !important; }
-  footer .grid { grid-template-columns: 1fr !important; gap: 1.25rem !important; }
-  /* The hero is a portrait inspection board on narrow screens. */
-  main img[src*="unsplash"] { height: 220px !important; object-position: center !important; }
-  /* Keep category controls on one readable line without horizontal page overflow. */
-  main .overflow-x-auto { scrollbar-width: none; max-width: 100%; }
-  main .overflow-x-auto::-webkit-scrollbar { display: none; }
-  /* Two-column catalogue with large enough touch targets. */
-  main .grid.grid-cols-1.sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
-  main .grid.grid-cols-1.sm\:grid-cols-2 button { min-height: 44px; }
-  /* Make key actions thumb-friendly and visually anchored. */
-  main button { min-height: 44px; }
-  nav[aria-label="Mobile Navigation"] { background: var(--steel-900) !important; border-top: 2px solid var(--copper) !important; padding-bottom: calc(6px + env(safe-area-inset-bottom)) !important; }
-  nav[aria-label="Mobile Navigation"] button { min-height: 56px; }
-  nav[aria-label="Mobile Navigation"] span { font-size: 11px !important; }
-  /* Keep floating WhatsApp above the navigation without competing with it. */
-  button[title="تواصل معنا عبر واتساب"] { bottom: 92px !important; right: 14px !important; background: var(--copper) !important; box-shadow: 0 8px 24px rgba(0,0,0,.35) !important; }
-
-  /* Mobile storefront composition: product first, chrome second. */
-  .storefront-catalog { gap: 12px !important; }
-  .store-hero { margin-bottom: 14px !important; border-radius: 14px !important; }
-  .store-hero > div:first-child { border-radius: 14px !important; border-color: #d8d2c9 !important; background: #252a30 !important; }
-  .store-hero > div:first-child > div:first-child { height: 112px !important; }
-  .store-hero > div:first-child > div:first-child > div:first-of-type { display: none !important; }
-  .store-hero > div:first-child > div:first-child button { width: 34px !important; height: 34px !important; padding: 0 !important; }
-  .store-hero > div:last-child { margin-top: -28px !important; padding: 0 13px 13px !important; }
-  .store-hero h1 { font-size: 20px !important; }
-  .store-hero .text-neutral-300 { font-size: 12px !important; line-height: 1.6 !important; }
-  .store-hero .mt-7 { margin-top: 12px !important; padding-top: 10px !important; }
-  .store-hero .mt-7 > div { padding: 8px !important; min-height: 50px !important; }
-  .store-hero .mt-7 > div:nth-child(n+3) { display: none !important; }
-  .storefront-catalog > .flex.items-center.gap-2\.5 { margin-inline: -2px; }
-  .storefront-catalog .catalog-results > .rounded-2xl { padding: 10px !important; background: #f7f4ef !important; border: 0 !important; color: var(--steel-950) !important; }
-  .storefront-catalog .catalog-results > .rounded-2xl .text-white,
-  .storefront-catalog .catalog-results > .rounded-2xl .text-neutral-400 { color: var(--steel-950) !important; }
-  .storefront-catalog .catalog-results > .rounded-2xl select { min-height: 42px; background: #fff !important; color: var(--steel-950) !important; border-color: #d8d2c9 !important; }
-  .storefront-catalog .product-card { border: 1px solid #e2ddd5 !important; background: #fff !important; box-shadow: 0 3px 14px rgba(27,32,37,.08) !important; border-radius: 12px !important; }
-  .storefront-catalog .product-image { aspect-ratio: 1 / 1.02 !important; min-height: 154px; padding: 12px !important; background: #f8f7f4 !important; border-bottom: 1px solid #ece7df !important; }
-  .storefront-catalog .product-image img { mix-blend-mode: multiply; filter: none !important; }
-  .storefront-catalog .product-card-content { padding: 11px !important; gap: 0 !important; }
-  .storefront-catalog .product-card-content > div:first-child { gap: 7px !important; }
-  .storefront-catalog .product-card-content h3 { color: #20252a !important; font-family: 'IBM Plex Sans Arabic', sans-serif !important; font-size: 13px !important; line-height: 1.55 !important; }
-  .storefront-catalog .product-card-content .text-emerald-300 { color: var(--copper) !important; background: #fff1e9 !important; border-color: #f2c8b3 !important; }
-  .storefront-catalog .product-card-content .text-amber-400 { color: #a65b2f !important; }
-  .storefront-catalog .product-specs { display: none !important; }
-  .storefront-catalog .product-card-content .text-2xl { font-size: 17px !important; color: #161a1d !important; }
-  .storefront-catalog .product-card-content .text-2xl .text-emerald-400 { color: var(--copper) !important; font-size: 11px !important; }
-  .storefront-catalog .product-actions { padding-top: 9px !important; margin-top: 4px; border-color: #eee8e0 !important; }
-  .storefront-catalog .product-actions > button:first-child { min-height: 42px !important; padding: 8px 6px !important; border-radius: 8px !important; font-size: 12px !important; background: var(--copper) !important; box-shadow: none !important; }
-  .storefront-catalog .product-actions > div { display: none !important; }
-  .storefront-catalog .product-card .absolute.top-3\.5.left-3\.5 { transform: scale(.82); transform-origin: top left; }
-  .storefront-catalog .product-card .absolute.top-3\.5.right-3\.5 span { padding: 4px 7px !important; font-size: 9px !important; }
-  .storefront-catalog .product-card .absolute.top-3\.5.right-3\.5 { top: 8px !important; right: 8px !important; }
-  .storefront-catalog .product-card .absolute.top-3\.5.left-3\.5 { top: 8px !important; left: 8px !important; }
-  .storefront-catalog .catalog-results > .grid { gap: 9px !important; }
-  .storefront-catalog .desktop-filter-panel { display: none !important; }
-}
-
-::-webkit-scrollbar { width: 7px; height: 7px; }
-::-webkit-scrollbar-track { background: var(--steel-950); }
-::-webkit-scrollbar-thumb { background: var(--steel-700); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--copper); }
-
-/* Ecommerce shell: calm white surfaces, clear hierarchy, complete product view. */
-body { background: #f4f6f8; color: #1e2933; }
-#root { background: #f4f6f8; }
-.store-header { background: #ffffff !important; color: #1e2933 !important; border-bottom: 1px solid #e4e8ec !important; box-shadow: 0 2px 14px rgba(20,34,48,.06) !important; }
-.store-header .store-header-main { padding-top: 12px !important; padding-bottom: 12px !important; }
-.store-header .store-header-main .text-white { color: #1e2933 !important; }
-.store-header .store-header-main .text-neutral-400,
-.store-header .store-header-main .text-neutral-300 { color: #667481 !important; }
-.store-header .store-header-main button:not(.bg-emerald-400) { color: #50606d !important; }
-.store-header .store-header-main button.bg-emerald-400 { background: #c86b3c !important; color: #fff !important; box-shadow: none !important; }
-.store-header .store-header-main input { background: #f5f7f8 !important; border-color: #dde3e8 !important; color: #1e2933 !important; }
-.store-header .store-header-main input::placeholder { color: #8996a2 !important; }
-.store-header > div:first-child { background: #193247 !important; border: 0 !important; color: #f6f8fa !important; }
+.store-header .store-header-main { padding: 12px 16px !important; }
+.store-header .store-header-main .text-white { color: #f7fafb !important; }
+.store-header .store-header-main .text-neutral-300,
+.store-header .store-header-main .text-neutral-400 { color: #cbd6dc !important; }
+.store-header .store-header-main input { background: rgba(255,255,255,.1) !important; border-color: rgba(255,255,255,.14) !important; color: #fff !important; }
+.store-header .store-header-main input::placeholder { color: #b9c6cd !important; }
+.store-header .store-header-main button.bg-emerald-400 { background: var(--hub-copper) !important; color: #fff !important; box-shadow: none !important; }
+.store-header > div:first-child { background: var(--hub-steel-2) !important; border: 0 !important; color: #e7eef2 !important; }
 .store-header > div:first-child .text-neutral-300,
-.store-header > div:first-child .text-neutral-200 { color: #e5edf2 !important; }
+.store-header > div:first-child .text-neutral-200 { color: #e7eef2 !important; }
 .store-header > div:first-child .text-emerald-400,
-.store-header > div:first-child .text-amber-400 { color: #f2a477 !important; }
-main { max-width: 1240px !important; }
-main > div { max-width: 1160px !important; }
-.store-hero > div:first-child { background: #ffffff !important; border-color: #e4e8ec !important; box-shadow: 0 8px 24px rgba(27,43,56,.08) !important; }
-.store-hero-body { background: #ffffff !important; color: #1e2933 !important; border-radius: 0 0 2.2rem 2.2rem; }
-.store-hero-body .text-white { color: #17212b !important; }
-.store-hero-body .border-white\/10 { border-color: #e4e8ec !important; }
-.store-hero-body .bg-white\/\[0\.02\] { background: #f4f7f8 !important; border-color: #e1e7ea !important; }
-.store-hero-body .text-neutral-400, .store-hero-body .text-neutral-300 { color: #647381 !important; }
-.store-hero-body .text-emerald-400, .store-hero-body .text-amber-400 { color: #3d6475 !important; }
-.store-hero-body button.bg-emerald-400 { background: #3d6475 !important; color: #fff !important; }
-.store-hero-body button.border-white\/15 { border-color: #dce3e7 !important; background: #f7f9fa !important; color: #1e2933 !important; }
-.store-hero-body button.border-white\/15 .text-emerald-400 { color: #c86b3c !important; }
-.store-hero-cover { background: #193247 !important; }
-.store-hero h1, .store-hero .text-white { color: #17212b !important; }
-.store-hero .text-neutral-300, .store-hero .text-neutral-400 { color: #647381 !important; }
-.store-hero .bg-\[\#07080c\], .store-hero .bg-\[\#08090d\] { background: #ffffff !important; }
-.storefront-catalog .catalog-results > .rounded-2xl { background: #fff !important; border-color: #e3e8ec !important; box-shadow: 0 3px 12px rgba(31,45,56,.04); }
-.storefront-catalog .product-card { background: #fff !important; border-color: #e1e6ea !important; box-shadow: 0 5px 18px rgba(26,39,49,.07) !important; }
-.storefront-catalog .product-image { background: #f8fafb !important; }
-.storefront-catalog .product-image img { object-fit: contain !important; }
-.storefront-catalog .product-card-content h3 { color: #18232d !important; }
-.storefront-catalog .product-card-content .text-neutral-300 { color: #63717d !important; }
-.storefront-catalog .product-card-content .text-2xl { color: #16222c !important; }
-.storefront-catalog .product-actions { border-color: #e6eaed !important; }
-.storefront-catalog .product-actions > button:first-child { background: #c86b3c !important; color: #fff !important; box-shadow: none !important; }
-.desktop-filter-panel { background: #fff !important; border-color: #e1e6ea !important; box-shadow: 0 5px 18px rgba(26,39,49,.06) !important; }
-.desktop-filter-panel .text-white { color: #1e2933 !important; }
-.desktop-filter-panel .text-neutral-300, .desktop-filter-panel .text-neutral-400 { color: #657480 !important; }
-.desktop-filter-panel input, .desktop-filter-panel button { border-color: #dfe5e9 !important; }
-.desktop-filter-panel button.bg-emerald-400, .storefront-catalog .catalog-results button.bg-emerald-400 { background: #c86b3c !important; color: #fff !important; }
-footer { background: #193247 !important; border-color: #284658 !important; }
+.store-header > div:first-child .text-amber-400 { color: #f0a174 !important; }
+
+/* Trust strip: same role as the small benefit cues in the reference project. */
+.store-app-shell > .relative.z-10 > .bg-\[\#0b0d14\] {
+  background: var(--hub-steel-2) !important;
+  border-color: rgba(255,255,255,.08) !important;
+  color: #e7eef2 !important;
+}
+.store-app-shell > .relative.z-10 > .bg-\[\#0b0d14\] .text-neutral-300 { color: #e7eef2 !important; }
+.store-app-shell > .relative.z-10 > .bg-\[\#0b0d14\] .text-emerald-400,
+.store-app-shell > .relative.z-10 > .bg-\[\#0b0d14\] .text-amber-400 { color: #f0a174 !important; }
+
+/* Reference hero rhythm: image first, white content panel second. */
+.store-hero { margin-bottom: 24px !important; }
+.store-hero > div:first-child {
+  background: var(--hub-card) !important;
+  border: 1px solid var(--hub-border) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--hub-shadow) !important;
+}
+.store-hero-cover { height: 192px !important; background: var(--hub-steel) !important; }
+.store-hero-cover img { filter: brightness(.72) contrast(1.06) !important; transform: none !important; }
+.store-hero-cover > div:nth-child(2) { background: linear-gradient(to top, rgba(23,37,48,.88), rgba(23,37,48,.08)) !important; }
+.store-hero-cover > div:nth-child(3) { display: none !important; }
+.store-hero-body {
+  background: var(--hub-card) !important;
+  color: var(--hub-text) !important;
+  border-radius: 0 0 16px 16px !important;
+  margin-top: -18px !important;
+  padding: 0 16px 16px !important;
+}
+.store-hero-body .text-white { color: var(--hub-text) !important; }
+.store-hero-body .text-neutral-300,
+.store-hero-body .text-neutral-400 { color: var(--hub-muted) !important; }
+.store-hero-body .border-white\/10 { border-color: var(--hub-border) !important; }
+.store-hero-body .bg-white\/\[0\.02\] { background: #f5f7f8 !important; border-color: var(--hub-border) !important; }
+.store-hero-body button.bg-emerald-400 { background: var(--hub-blue) !important; color: #fff !important; box-shadow: none !important; }
+.store-hero-body button.border-white\/15 { border-color: var(--hub-border) !important; background: #f7f9fa !important; color: var(--hub-text) !important; }
+.store-hero-body .text-emerald-400,
+.store-hero-body .text-amber-400 { color: var(--hub-copper) !important; }
+.store-hero-body > div:first-child > div:first-child > div:first-child > div:first-child { border-color: rgba(200,107,60,.5) !important; background: var(--hub-steel) !important; }
+
+/* Product catalogue follows the reference: two clear cards, image before metadata. */
+.storefront-catalog { gap: 12px !important; }
+.storefront-catalog .catalog-results > .rounded-2xl,
+.storefront-catalog .desktop-filter-panel {
+  background: var(--hub-card) !important;
+  border: 1px solid var(--hub-border) !important;
+  box-shadow: var(--hub-shadow) !important;
+}
+.storefront-catalog .catalog-results > .rounded-2xl .text-white { color: var(--hub-text) !important; }
+.storefront-catalog .catalog-results > .rounded-2xl .text-neutral-400,
+.storefront-catalog .catalog-results > .rounded-2xl .text-neutral-300 { color: var(--hub-muted) !important; }
+.storefront-catalog .product-card {
+  background: var(--hub-card) !important;
+  border: 1px solid var(--hub-border) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--hub-shadow) !important;
+  overflow: hidden;
+}
+.storefront-catalog .product-image { background: #f6f8f9 !important; border-bottom: 1px solid #e7ecef !important; }
+.storefront-catalog .product-image img { object-fit: contain !important; mix-blend-mode: multiply; filter: none !important; }
+.storefront-catalog .product-card-content { background: #fff !important; }
+.storefront-catalog .product-card-content h3 { color: var(--hub-text) !important; font-family: 'IBM Plex Sans Arabic', sans-serif !important; }
+.storefront-catalog .product-card-content .text-neutral-300,
+.storefront-catalog .product-card-content .text-neutral-400 { color: var(--hub-muted) !important; }
+.storefront-catalog .product-card-content .text-2xl { color: var(--hub-text) !important; }
+.storefront-catalog .product-actions { border-color: #e8edef !important; }
+.storefront-catalog .product-actions > button:first-child { background: var(--hub-blue) !important; color: #fff !important; box-shadow: none !important; }
+.storefront-catalog .product-card-content .text-emerald-300 { color: var(--hub-copper) !important; background: #fff0e8 !important; border-color: #efc5ae !important; }
+
+/* Bottom nav matches Hub: 5 equal thumb-sized targets and a calm card surface. */
+nav[aria-label="Mobile Navigation"] {
+  background: rgba(255,255,255,.97) !important;
+  border-top: 1px solid var(--hub-border) !important;
+  box-shadow: 0 -8px 24px rgba(31,48,62,.12) !important;
+  backdrop-filter: blur(14px);
+}
+nav[aria-label="Mobile Navigation"] button { min-height: 58px !important; color: var(--hub-muted) !important; }
+nav[aria-label="Mobile Navigation"] button.text-emerald-400,
+nav[aria-label="Mobile Navigation"] button.text-amber-400,
+nav[aria-label="Mobile Navigation"] button.text-sky-400,
+nav[aria-label="Mobile Navigation"] button.text-purple-400 { color: var(--hub-blue) !important; }
+nav[aria-label="Mobile Navigation"] button .bg-emerald-400\/20,
+nav[aria-label="Mobile Navigation"] button .bg-amber-400\/20,
+nav[aria-label="Mobile Navigation"] button .bg-sky-400\/20,
+nav[aria-label="Mobile Navigation"] button .bg-purple-400\/20 { background: rgba(61,100,117,.12) !important; }
+nav[aria-label="Mobile Navigation"] button .text-emerald-400 { color: var(--hub-copper) !important; }
+
+/* Footer is compact and informational like the reference project. */
+.store-app-shell footer { background: transparent !important; color: var(--hub-muted) !important; border-color: var(--hub-border) !important; padding: 28px 16px 92px !important; }
+.store-app-shell footer .text-white { color: var(--hub-text) !important; }
+.store-app-shell footer .text-neutral-400,
+.store-app-shell footer .text-neutral-300 { color: var(--hub-muted) !important; }
+.store-app-shell footer .text-amber-400 { color: var(--hub-copper) !important; }
+
+button { transition: transform .16s ease, filter .16s ease, background-color .16s ease; }
+button:active { transform: scale(.98); }
+#root { animation: hub-arrival .45s cubic-bezier(.23,1,.32,1) both; }
+@keyframes hub-arrival { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
 @media (min-width: 768px) {
-  .store-hero { margin-bottom: 28px !important; }
-  .storefront-catalog .product-image { aspect-ratio: 1 / .94 !important; min-height: 260px; padding: 24px !important; }
-  .storefront-catalog .product-card-content { padding: 18px !important; }
+  .store-hero-cover { height: 250px !important; }
+  .storefront-catalog .product-image { min-height: 230px; padding: 20px !important; }
 }
 
 @media (max-width: 767px) {
-  #root { overflow-x: hidden; }
+  main { padding: 20px 16px 100px !important; }
   .store-header > div:first-child { min-height: 30px; padding-block: 5px !important; font-size: 10px !important; }
   .store-header > div:first-child > div:first-child span:nth-child(n+2),
   .store-header > div:first-child > div:last-child > div:first-child,
   .store-header > div:first-child a { display: none !important; }
-  .store-header-main { padding-inline: 12px !important; }
-  .store-header-main > div { gap: 8px !important; }
+  .store-header-main { padding-inline: 16px !important; }
   .store-header-main nav > button:not(:last-of-type), .store-header-main nav > div { display: none !important; }
-  .store-header-main nav { margin-inline-start: auto; }
   .store-header-main nav > button:last-of-type { display: inline-flex !important; min-height: 42px !important; min-width: 42px !important; }
   .store-header form.flex.lg\:hidden { margin-top: 8px !important; }
-  .store-header form.flex.lg\:hidden input { min-height: 42px !important; background: #f5f7f8 !important; color: #1e2933 !important; border-color: #dfe5e9 !important; }
-  main { padding-top: 12px !important; background: #f4f6f8; }
-  .store-hero > div:first-child > div:first-child { height: 132px !important; }
-  .store-hero .mt-7 > div { background: #f7f9fa !important; border-color: #e7ecef !important; }
-  .storefront-catalog .catalog-results > .rounded-2xl { box-shadow: none !important; }
+  .store-header form.flex.lg\:hidden input { min-height: 42px !important; }
+  .store-hero-cover { height: 168px !important; }
+  .store-hero-body { margin-top: -14px !important; padding: 0 14px 14px !important; }
+  .store-hero h1 { font-size: 20px !important; line-height: 1.45 !important; }
+  .store-hero-body .mt-7 { margin-top: 14px !important; padding-top: 12px !important; }
+  .store-hero-body .mt-7 > div { min-height: 54px !important; padding: 9px !important; background: #f5f7f8 !important; }
+  .store-hero-body .mt-7 > div:nth-child(n+3) { display: none !important; }
+  .storefront-catalog .catalog-results > .rounded-2xl { padding: 10px !important; box-shadow: none !important; }
+  .storefront-catalog .catalog-results > .grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px !important; }
+  .storefront-catalog .product-image { min-height: 158px !important; aspect-ratio: 1 / 1.04 !important; padding: 12px !important; }
+  .storefront-catalog .product-card-content { padding: 11px !important; }
+  .storefront-catalog .product-card-content h3 { font-size: 13px !important; line-height: 1.55 !important; }
+  .storefront-catalog .product-specs { display: none !important; }
+  .storefront-catalog .product-card-content .text-2xl { font-size: 16px !important; }
+  .storefront-catalog .product-actions { padding-top: 9px !important; margin-top: 4px; }
+  .storefront-catalog .product-actions > button:first-child { min-height: 42px !important; font-size: 11px !important; border-radius: 9px !important; }
+  .storefront-catalog .product-actions > div { display: none !important; }
+  button[title="تواصل معنا عبر واتساب"] { bottom: 86px !important; right: 14px !important; background: var(--hub-copper) !important; box-shadow: 0 8px 20px rgba(31,48,62,.2) !important; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-thumb { background: #aebbc3; border-radius: 4px; }
+::-webkit-scrollbar-track { background: var(--hub-bg); }
+
+/* Keep overlays and dialogs visually independent from the light storefront shell. */
+.fixed.inset-0.z-50 { isolation: isolate; }
+.fixed.inset-0.z-50 .text-white { color: #fff; }
+.fixed.inset-0.z-50 .text-neutral-300 { color: #cbd6dc; }
+.fixed.inset-0.z-50 .text-neutral-400 { color: #aebbc3; }
+.fixed.inset-0.z-50 .bg-emerald-400 { background: var(--hub-copper) !important; }
+.fixed.inset-0.z-50 .text-emerald-400 { color: #f0a174 !important; }
+.fixed.inset-0.z-50 .border-white\/10,
+.fixed.inset-0.z-50 .border-white\/15 { border-color: rgba(255,255,255,.14) !important; }
+.fixed.inset-0.z-50 .bg-white\/\[0\.04\],
+.fixed.inset-0.z-50 .bg-white\/\[0\.05\] { background: rgba(255,255,255,.06) !important; }
+#root { overflow-x: hidden; }
