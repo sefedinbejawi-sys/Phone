@@ -209,3 +209,46 @@ button:active { transform: scale(.98); }
 .fixed.inset-0.z-50 .bg-white\/\[0\.04\],
 .fixed.inset-0.z-50 .bg-white\/\[0\.05\] { background: rgba(255,255,255,.06) !important; }
 #root { overflow-x: hidden; }
+
+/* Exact reference composition: compact hero, clear CTAs, and four benefit tiles. */
+.hub-hero { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--hub-border); border-radius: 16px; background: var(--hub-card); box-shadow: var(--hub-shadow); }
+.hub-hero-image { position: relative; width: 100%; height: 180px !important; overflow: hidden; background: var(--hub-steel); }
+.hub-hero-image > img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(.78) contrast(1.04) !important; transform: none !important; }
+.hub-hero-image-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(25,50,71,.72), rgba(25,50,71,.08) 62%, transparent); }
+.hub-hero-actions { position: absolute; inset-inline-start: 12px; top: 12px; display: flex; gap: 8px; direction: ltr; }
+.hub-hero-actions button { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; background: rgba(25,50,71,.78); color: #fff; }
+.hub-hero-content { display: flex; flex-direction: column; gap: 13px; padding: 20px 16px 16px !important; margin-top: 0 !important; }
+.hub-hero-brand { display: flex; align-items: flex-start; gap: 10px; text-align: right; }
+.hub-logo-frame { display: grid; flex: 0 0 auto; width: 42px; height: 42px; place-items: center; border: 1px solid var(--hub-border); border-radius: 11px; background: #f4f7f8; overflow: hidden; }
+.hub-logo-frame img { width: 100%; height: 100%; object-fit: contain; }
+.hub-eyebrow { margin: 0 0 3px; color: var(--hub-blue); font-size: 11px; font-weight: 700; }
+.hub-hero h1 { margin: 0; color: var(--hub-text) !important; font-family: 'Cairo', sans-serif; font-size: clamp(21px, 5vw, 28px); font-weight: 900; line-height: 1.45; letter-spacing: -.025em; }
+.hub-hero-description { margin: 6px 0 0; color: var(--hub-muted); font-size: 12px; line-height: 1.7; }
+.hub-hero-buttons { display: grid; gap: 8px; }
+.hub-btn { display: flex; min-height: 44px; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 10px; font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 800; cursor: pointer; }
+.hub-btn-primary { background: #0876d8; color: #fff; box-shadow: 0 5px 12px rgba(8,118,216,.2); }
+.hub-btn-secondary { border: 1px solid #d7dfe4; background: #eef1f3; color: var(--hub-text); }
+.hub-hero-contact-row { display: flex; align-items: center; justify-content: center; gap: 7px; flex-wrap: wrap; }
+.hub-inline-action, .hub-location-link { display: inline-flex; min-height: 32px; align-items: center; gap: 5px; border-radius: 8px; padding: 0 9px; color: var(--hub-muted); font-size: 11px; font-weight: 700; text-decoration: none; }
+.hub-inline-action { border: 1px solid var(--hub-border); background: #f8fafb; }
+.hub-whatsapp-action { color: #388057; }
+.hub-location-link { color: var(--hub-blue); text-decoration: underline; text-underline-offset: 3px; }
+.hub-benefits-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin-top: 3px; }
+.hub-benefit { display: flex; min-height: 66px; align-items: flex-start; gap: 9px; border: 1px solid var(--hub-border); border-radius: 12px; padding: 12px 10px; background: #fff; color: var(--hub-text); text-align: right; box-shadow: 0 4px 12px -12px rgba(31,48,62,.45); }
+button.hub-benefit { width: 100%; cursor: pointer; }
+.hub-benefit > svg { flex: 0 0 auto; color: var(--hub-copper); }
+.hub-benefit span { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.hub-benefit strong { font-size: 12px; line-height: 1.35; }
+.hub-benefit small { color: var(--hub-muted); font-size: 10px; line-height: 1.35; }
+
+@media (min-width: 768px) {
+  .hub-hero-image { height: 260px !important; }
+  .hub-hero-content { padding: 24px !important; }
+  .hub-hero-buttons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 767px) {
+  .hub-hero-image { height: 178px !important; }
+  .hub-hero-content { gap: 12px; }
+  .hub-hero h1 { font-size: 21px; }
+}

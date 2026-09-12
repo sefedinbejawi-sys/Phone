@@ -196,7 +196,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
     searchQuery.trim().length > 0;
 
   return (
-    <div className="space-y-6 storefront-catalog">
+    <div id="products-catalog" className="space-y-6 storefront-catalog">
       {/* Category Pills Bar - Inspired by Showly */}
       <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-thin">
         <button
