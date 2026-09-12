@@ -61,7 +61,7 @@ export const StoreHeroHeader: React.FC<StoreHeroHeaderProps> = ({
   };
 
   return (
-    <div className="relative mb-8">
+    <div className="relative mb-8 store-hero">
       {/* Store Card Container - Inspired by Showly Atelier Nova */}
       <div className="overflow-hidden rounded-[2.2rem] border border-white/10 bg-white/[0.035] backdrop-blur-2xl shadow-2xl relative">
         {/* Cover Photo with Atmospheric Gradient Fade */}

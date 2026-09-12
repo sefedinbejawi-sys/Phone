@@ -29,7 +29,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     warrantyMonths: 12,
     stock: 8,
     images: [
-      'https://images.unsplash.com/photo-1726056652586-1d129994c965?w=900&auto=format&fit=crop&q=85',
+      '/products/iphone-16-pro-max.jpg',
       'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=900&auto=format&fit=crop&q=85',
       'https://images.unsplash.com/photo-1696446701796-da61225697cc?w=900&auto=format&fit=crop&q=85',
     ],
@@ -92,7 +92,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     warrantyMonths: 12,
     stock: 7,
     images: [
-      'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=800&auto=format&fit=crop&q=80',
+      '/products/iphone-16-pro-max.jpg',
       'https://images.unsplash.com/photo-1696446701796-da61225697cc?w=800&auto=format&fit=crop&q=80',
       'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?w=800&auto=format&fit=crop&q=80',
     ],
@@ -155,7 +155,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     warrantyMonths: 12,
     stock: 9,
     images: [
-      'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=900&auto=format&fit=crop&q=85',
+      '/products/samsung-s24-ultra.jpg',
       'https://images.unsplash.com/photo-1707227156553-6a9d618dcf86?w=900&auto=format&fit=crop&q=85',
       'https://images.unsplash.com/photo-1580910051074-3eb694886505?w=900&auto=format&fit=crop&q=85',
     ],
@@ -214,7 +214,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     warrantyMonths: 12,
     stock: 6,
     images: [
-      'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=900&auto=format&fit=crop&q=85',
+      '/products/pixel-8-pro.jpg',
       'https://images.unsplash.com/photo-1616469829941-c7200edec809?w=900&auto=format&fit=crop&q=85',
     ],
     description: 'الهاتف الأذكى في التصوير مع شريحة Google Tensor G3 ومساعد الذكاء الاصطناعي Gemini Nano المدمج، كاميرا بدقة 50 ميجابكسل مع أفضل معالجة صور ليلية في العالم، وشاشة Super Actua ساطعة 2400 nits.',
@@ -272,7 +272,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     warrantyMonths: 3,
     stock: 4,
     images: [
-      'https://images.unsplash.com/photo-1663499482523-1c0c1bae4ce1?w=900&auto=format&fit=crop&q=85',
+      '/products/iphone-16-pro-max.jpg',
       'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?w=900&auto=format&fit=crop&q=85',
     ],
     description: 'هاتف آيفون 14 برو مستعمل أصلي 100%، مفحوص بدقة نقطة بنقطة من طرف فنيينا في الورشة، شاشة أصلية بدون أي خدوش، صحة البطارية 94%، مع العلبة وكابل الشحن وضمان 3 أشهر موثق من المحل.',
@@ -329,7 +329,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     warrantyMonths: 12,
     stock: 14,
     images: [
-      'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=900&auto=format&fit=crop&q=85',
+      '/products/pixel-8-pro.jpg',
       'https://images.unsplash.com/photo-1567581935884-3349723552ca?w=900&auto=format&fit=crop&q=85',
     ],
     description: 'أفضل قيمة مقابل السعر في الجزائر! كاميرا خارقة 200 ميجابكسل مع مثبت بصري OIS، شحن صاروخي بقدرة 120W (يشحن من 0 إلى 100% في 19 دقيقة)، شاشة منحنية AMOLED 1.5K، ومقاومة الماء IP68.',
@@ -542,7 +542,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     warrantyMonths: 12,
     stock: 12,
     images: [
-      'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=900&auto=format&fit=crop&q=85',
+      '/products/airpods-pro-2.jpg',
       'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=900&auto=format&fit=crop&q=85',
     ],
     description: 'سماعات Apple AirPods Pro 2 الأصلية مع شريحة H2 المطورة، عزل ضوضاء نشط مضاعف (Active Noise Cancellation)، ميزة الصوت التكيفي وشفافية الصوت، ومنفذ USB-C الجديد مع علبة MagSafe مقاومة للغبار والماء IP54.',
@@ -577,7 +577,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     warrantyMonths: 6,
     stock: 35,
     images: [
-      'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=900&auto=format&fit=crop&q=85',
+      '/products/usb-c-cable.jpg',
     ],
     description: 'شاحن آبل الجداري السريع الأصلي بقوة 20 واط مع كابل أصلي مجدول، يدعم الشحن السريع لجميع موديلات الآيفون والآيباد مع نظام حماية ذكي ضد الحرارة وتذبذب التيار الكهربائي.',
     descriptionFr: 'Adaptateur secteur Apple USB-C 20W original avec câble pour une charge rapide et sécurisée de votre iPhone.',
@@ -649,7 +649,7 @@ export const INITIAL_PRODUCTS: Product[] = [
     warrantyMonths: 12,
     stock: 18,
     images: [
-      'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=900&auto=format&fit=crop&q=85',
+      '/products/anker-powerbank.jpg',
     ],
     description: 'باور بانك لاسلكي مغناطيسي معتمد Qi2 شحن فائق السرعة 15W مع شاشة رقمية تعرض نسبة الشحن المتبقية والوقت اللازم لإعادة التعبئة وحامل مدمج لمشاهدة الفيديو.',
     descriptionFr: 'Batterie externe magnétique sans fil certifiée Qi2 15W avec écran digital intelligent et support pliable.',

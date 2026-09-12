@@ -196,7 +196,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
     searchQuery.trim().length > 0;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 storefront-catalog">
       {/* Category Pills Bar - Inspired by Showly */}
       <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-thin">
         <button
@@ -256,7 +256,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
       {/* Main Container: Sidebar Filters + Products Listing */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left Filter Sidebar (Desktop lg:col-span-3) */}
-        <div className="hidden lg:block lg:col-span-3 rounded-[2rem] border border-white/10 bg-white/[0.035] backdrop-blur-xl p-5 text-white shadow-xl space-y-6 sticky top-24">
+        <div className="hidden lg:block lg:col-span-3 rounded-[2rem] border border-white/10 bg-white/[0.035] backdrop-blur-xl p-5 text-white shadow-xl space-y-6 sticky top-24 desktop-filter-panel">
           <div className="flex items-center justify-between border-b border-white/10 pb-3">
             <div className="flex items-center gap-2">
               <SlidersHorizontal className="w-4 h-4 text-emerald-400" />
@@ -381,7 +381,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
         </div>
 
         {/* Right Content Area: Results Bar + Products List/Grid (Desktop lg:col-span-9) */}
-        <div className="lg:col-span-9 space-y-4">
+        <div className="lg:col-span-9 space-y-4 catalog-results">
           {/* Top Sort & Toolbar */}
           <div className="rounded-2xl p-3.5 sm:p-4 border border-white/10 bg-white/[0.035] backdrop-blur-xl flex flex-wrap items-center justify-between gap-3 text-white">
             {/* Results count & Mobile filter trigger */}
@@ -535,13 +535,13 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                 return (
                   <div
                     key={product.id}
-                    className="rounded-[2rem] border border-white/10 bg-white/[0.035] hover:border-emerald-400/40 hover:bg-white/[0.06] transition-all duration-300 flex flex-col justify-between overflow-hidden group backdrop-blur-md relative"
+                    className="product-card rounded-[2rem] border border-white/10 bg-white/[0.035] hover:border-emerald-400/40 hover:bg-white/[0.06] transition-all duration-300 flex flex-col justify-between overflow-hidden group backdrop-blur-md relative"
                   >
                     {/* Top ambient glow */}
                     <div className="absolute -inset-0.5 bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none rounded-[2rem]" />
 
                     {/* Card Top / Image Presentation Area */}
-                    <div className="relative aspect-square bg-[#0c0e15] overflow-hidden flex items-center justify-center p-6 border-b border-white/5">
+                    <div className="product-image relative aspect-square bg-[#0c0e15] overflow-hidden flex items-center justify-center p-6 border-b border-white/5">
                       <img
                         src={product.images[0]}
                         alt={product.name}
@@ -590,7 +590,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                     </div>
 
                     {/* Card Middle: Content, Specs pills, Pricing */}
-                    <div className="p-5 flex-1 flex flex-col justify-between space-y-4 relative z-10">
+                    <div className="product-card-content p-5 flex-1 flex flex-col justify-between space-y-4 relative z-10">
                       <div className="space-y-2.5">
                         {/* Brand & Rating */}
                         <div className="flex items-center justify-between text-xs">
@@ -612,7 +612,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                         </h3>
 
                         {/* Quick Specs Chips Grid */}
-                        <div className="grid grid-cols-2 gap-1.5 text-[11px] text-neutral-300 pt-1">
+                        <div className="product-specs grid grid-cols-2 gap-1.5 text-[11px] text-neutral-300 pt-1">
                           <div className="flex items-center gap-1.5 bg-white/[0.04] px-2.5 py-1.5 rounded-xl border border-white/5 truncate">
                             <HardDrive className="w-3.5 h-3.5 text-amber-400 shrink-0" />
                             <span className="truncate font-semibold">{product.storage || '256GB'}</span>
@@ -654,7 +654,7 @@ export const ProductGrid: React.FC<ProductGridProps> = ({
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="space-y-2 pt-3 border-t border-white/10">
+                      <div className="product-actions space-y-2 pt-3 border-t border-white/10">
                         <button
                           onClick={() => handleFastBuy(product)}
                           className="w-full py-3 px-4 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-[#08090d] text-xs sm:text-sm font-black flex items-center justify-center gap-2 shadow-[0_8px_30px_rgba(52,211,153,.25)] hover:scale-[1.01] transition-all cursor-pointer"
