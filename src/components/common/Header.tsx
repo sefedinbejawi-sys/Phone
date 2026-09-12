@@ -69,7 +69,7 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#08090d]/90 backdrop-blur-2xl text-white shadow-2xl border-b border-white/10">
+    <header className="sticky top-0 z-40 bg-[#08090d]/90 backdrop-blur-2xl text-white shadow-2xl border-b border-white/10 store-header">
       {/* Algerian E-commerce top announcement bar */}
       <div className="bg-[#0e1017] px-4 py-2 text-xs text-neutral-300 flex flex-wrap items-center justify-between gap-2 border-b border-white/10">
         <div className="flex items-center gap-4 flex-wrap">
@@ -133,7 +133,7 @@ export const Header: React.FC = () => {
       </div>
 
       {/* Main navigation row */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 store-header-main">
         <div className="flex items-center justify-between gap-4">
           {/* Logo & Identity */}
           <div
