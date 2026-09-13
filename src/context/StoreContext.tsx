@@ -11,6 +11,8 @@ import {
   OrderStatus,
   Review,
   Wilaya,
+  StoreSettings,
+  BackupPayload,
 } from '../types';
 import {
   INITIAL_PRODUCTS,
@@ -31,6 +33,21 @@ interface Toast {
   type: 'success' | 'info' | 'warning' | 'error';
 }
 
+export const DEFAULT_STORE_SETTINGS: StoreSettings = {
+  storeName: 'حمتين تيليكوم 4',
+  storeNameFr: 'Hamtine Telecom 4',
+  phone: '0699 26 92 92',
+  phoneSecondary: '0555 12 34 56',
+  address: 'ولاية الوادي - حي الاستقلال / مفترق طرق الملاح (مقابل المحطة)',
+  googleMapsUrl: 'https://share.google/ychE3nVODcxqlIGDt',
+  workingHours: 'يومياً من 08:30 صباحاً إلى 21:00 مساءً (الجمعة بعد صلاة الجمعة)',
+  isOpen: true,
+  announcementText: 'مرحباً بكم في حمتين تيليكوم 4 - هواتف جديدة وكابا أصلية مع الضمان وتسهيلات بالتقسيط والورشة المتخصصة',
+  deliveryNotice: 'التوصيل متوفر لـ 58 ولاية مع الدفع عند الاستلام',
+  installmentInterestRate: 0,
+  customNotes: 'خدمة الزبائن متوفرة 7/7 أيام مع استقبال الزبائن بالمتجر',
+};
+
 interface StoreContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
@@ -47,6 +64,7 @@ interface StoreContextType {
   setSelectedProduct: (p: Product | null) => void;
   addProduct: (product: Omit<Product, 'id'>) => void;
   updateProduct: (id: string, updates: Partial<Product>) => void;
+  deleteProduct: (id: string) => void;
   
   // Reviews
   reviews: Review[];
@@ -85,6 +103,16 @@ interface StoreContextType {
   // Reset and Demo Data Helpers
   clearAllDashboardData: () => void;
   loadDemoData: () => void;
+
+  // Store Settings & Backup
+  storeSettings: StoreSettings;
+  updateStoreSettings: (updates: Partial<StoreSettings>) => void;
+  resetStoreSettings: () => void;
+  restoreBackupData: (backup: Partial<BackupPayload>) => {
+    success: boolean;
+    message: string;
+    counts?: { products: number; orders: number; repairs: number; installments: number };
+  };
 
   // Toasts
   toasts: Toast[];
@@ -165,6 +193,23 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [activeTrackingTicket, setActiveTrackingTicket] = useState<RepairTicket | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [toasts, setToasts] = useState<Toast[]>([]);
+
+  // Store Settings (Store info, phone, address, working hours, etc.)
+  const [storeSettings, setStoreSettings] = useState<StoreSettings>(() => {
+    const saved = localStorage.getItem('phonedz_store_settings');
+    if (saved) {
+      try {
+        return { ...DEFAULT_STORE_SETTINGS, ...JSON.parse(saved) };
+      } catch (e) {
+        console.error('Failed to parse store settings:', e);
+      }
+    }
+    return DEFAULT_STORE_SETTINGS;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('phonedz_store_settings', JSON.stringify(storeSettings));
+  }, [storeSettings]);
 
   // Local-only mode: customer data stays in this browser until a backend is connected.
   // Sync to local storage
@@ -301,6 +346,11 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       prev.map((p) => (p.id === id ? { ...p, ...updates } : p))
     );
     showToast(language === 'ar' ? 'تم تحديث بيانات المنتج' : 'Produit mis à jour');
+  };
+
+  const deleteProduct = (id: string) => {
+    setProducts((prev) => prev.filter((p) => p.id !== id));
+    showToast(language === 'ar' ? 'تم حذف المنتج بنجاح' : 'Produit supprimé avec succès', 'info');
   };
 
   const addReview = (reviewData: Omit<Review, 'id' | 'date'>) => {
@@ -571,6 +621,81 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     );
   };
 
+  const updateStoreSettings = (updates: Partial<StoreSettings>) => {
+    setStoreSettings((prev) => {
+      const updated = { ...prev, ...updates };
+      localStorage.setItem('phonedz_store_settings', JSON.stringify(updated));
+      return updated;
+    });
+    showToast(
+      language === 'ar' ? 'تم تحديث وحفظ إعدادات ومعلومات المحل بنجاح' : 'Paramètres de la boutique mis à jour',
+      'success'
+    );
+  };
+
+  const resetStoreSettings = () => {
+    setStoreSettings(DEFAULT_STORE_SETTINGS);
+    localStorage.setItem('phonedz_store_settings', JSON.stringify(DEFAULT_STORE_SETTINGS));
+    showToast(
+      language === 'ar' ? 'تم استعادة الإعدادات الأصلية للمحل' : 'Paramètres par défaut restaurés',
+      'info'
+    );
+  };
+
+  const restoreBackupData = (backup: Partial<BackupPayload>) => {
+    try {
+      let prodCount = 0;
+      let ordCount = 0;
+      let repCount = 0;
+      let instCount = 0;
+
+      if (Array.isArray(backup.products)) {
+        setProducts(backup.products);
+        localStorage.setItem('phonedz_products', JSON.stringify(backup.products));
+        prodCount = backup.products.length;
+      }
+      if (Array.isArray(backup.orders)) {
+        setOrders(backup.orders);
+        localStorage.setItem('phonedz_orders', JSON.stringify(backup.orders));
+        ordCount = backup.orders.length;
+      }
+      if (Array.isArray(backup.repairs)) {
+        setRepairs(backup.repairs);
+        localStorage.setItem('phonedz_repairs', JSON.stringify(backup.repairs));
+        repCount = backup.repairs.length;
+      }
+      if (Array.isArray(backup.installments)) {
+        setInstallments(backup.installments);
+        localStorage.setItem('phonedz_installments', JSON.stringify(backup.installments));
+        instCount = backup.installments.length;
+      }
+      if (backup.settings) {
+        setStoreSettings((prev) => {
+          const merged = { ...prev, ...backup.settings };
+          localStorage.setItem('phonedz_store_settings', JSON.stringify(merged));
+          return merged;
+        });
+      }
+
+      showToast(
+        language === 'ar'
+          ? `تم تطبيق وحفظ النسخة بنجاح (${prodCount} منتج، ${ordCount} طلب، ${repCount} صيانة، ${instCount} تقسيط)`
+          : 'Sauvegarde appliquée avec succès',
+        'success'
+      );
+
+      return {
+        success: true,
+        message: 'Success',
+        counts: { products: prodCount, orders: ordCount, repairs: repCount, installments: instCount },
+      };
+    } catch (e) {
+      console.error('Error restoring backup:', e);
+      showToast(language === 'ar' ? 'حدث خطأ أثناء تطبيق النسخة' : 'Erreur de restauration', 'error');
+      return { success: false, message: 'Failed to restore' };
+    }
+  };
+
   return (
     <StoreContext.Provider
       value={{
@@ -586,6 +711,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setSelectedProduct,
         addProduct,
         updateProduct,
+        deleteProduct,
         reviews,
         addReview,
         cart,
@@ -612,6 +738,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         findInstallmentByQuery,
         clearAllDashboardData,
         loadDemoData,
+        storeSettings,
+        updateStoreSettings,
+        resetStoreSettings,
+        restoreBackupData,
         toasts,
         showToast,
         wilayas: ALGERIA_WILAYAS,

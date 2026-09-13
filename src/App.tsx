@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StoreProvider, useStore } from './context/StoreContext';
 import { Header } from './components/common/Header';
 import { StoreHeroHeader } from './components/storefront/StoreHeroHeader';
@@ -9,26 +9,36 @@ import { CartDrawer } from './components/storefront/CartDrawer';
 import { OrderSuccessModal } from './components/storefront/OrderSuccessModal';
 import { RepairSection } from './components/repair/RepairSection';
 import { InstallmentSection } from './components/installment/InstallmentSection';
-import { MerchantDashboard } from './components/dashboard/MerchantDashboard';
+import { ExternalAdminPanel } from './components/admin/ExternalAdminPanel';
 import { MobileBottomNav } from './components/common/MobileBottomNav';
-import { HamtineLogo } from './components/common/HamtineLogo';
 import { Product, Order } from './types';
 import {
   Truck,
   ShieldCheck,
-  Banknote,
-  Wrench,
   Phone,
   MessageCircle,
   MapPin,
   CheckCircle2,
   AlertCircle,
-  Clock,
   Sparkles,
+  Lock,
 } from 'lucide-react';
 
 const MainAppContent: React.FC = () => {
   const { currentView, setCurrentView, toasts, language, t } = useStore();
+
+  // URL Hash listener for #admin or #dashboard
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#admin' || hash === '#dashboard' || hash === '#manage') {
+        setCurrentView('dashboard');
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, [setCurrentView]);
 
   // Modals state
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -54,18 +64,52 @@ const MainAppContent: React.FC = () => {
     setCurrentView('storefront');
   };
 
-  return (
-    <div className="min-h-screen store-app-shell flex flex-col justify-between selection:bg-[#c86b3c]/30 selection:text-[#193247] relative overflow-x-hidden pb-20 md:pb-0">
+  // If in dedicated external admin view, render the full admin dashboard
+  if (currentView === 'dashboard') {
+    return (
+      <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between selection:bg-slate-900 selection:text-white">
+        <ExternalAdminPanel />
 
-      <div className="relative z-10">
+        {/* Global Toast Notifications */}
+        {toasts && toasts.length > 0 && (
+          <div className="fixed bottom-6 left-6 z-50 flex flex-col gap-2 pointer-events-none">
+            {toasts.map((toastItem) => (
+              <div
+                key={toastItem.id}
+                className={`px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2.5 text-xs font-bold transition-all border ${
+                  toastItem.type === 'success'
+                    ? 'bg-emerald-50 text-emerald-900 border-emerald-200'
+                    : toastItem.type === 'error'
+                    ? 'bg-rose-50 text-rose-900 border-rose-200'
+                    : toastItem.type === 'warning'
+                    ? 'bg-amber-50 text-amber-900 border-amber-200'
+                    : 'bg-slate-900 text-white border-slate-800'
+                }`}
+              >
+                {toastItem.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
+                {toastItem.type === 'error' && <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />}
+                {toastItem.type === 'warning' && <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />}
+                {toastItem.type === 'info' && <Sparkles className="w-4 h-4 text-sky-400 shrink-0" />}
+                <span>{toastItem.message}</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between selection:bg-slate-900 selection:text-white relative overflow-x-hidden pb-20 md:pb-0">
+      <div className="relative z-10 flex-1">
         {/* Main Sticky Header */}
         <Header />
 
-        {/* Main Content Area based on currentView */}
-        <main className="max-w-2xl mx-auto w-full px-4 py-5">
+        {/* Main Content Area */}
+        <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 py-6">
           {currentView === 'storefront' && (
             <div className="space-y-6">
-              {/* Showly-inspired Luxury Hero Header */}
+              {/* Clean Concise Hero Header */}
               <StoreHeroHeader
                 onOpenInstallments={() => setCurrentView('installments')}
                 onOpenRepairs={() => setCurrentView('repairs')}
@@ -86,88 +130,102 @@ const MainAppContent: React.FC = () => {
               onSelectProductForInstallment={handleSelectProductForInstallment}
             />
           )}
-
-          {currentView === 'dashboard' && <MerchantDashboard />}
         </main>
       </div>
 
-      {/* Algerian Trust Footer - Showly Atelier Nova Style */}
-      <footer className="relative z-10 bg-[#08090d] text-neutral-400 border-t border-white/10 mt-16 pt-12 pb-8 text-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      {/* Clean Modern Light Footer */}
+      <footer className="relative z-10 bg-white text-slate-600 border-t border-slate-200 mt-16 pt-10 pb-8 text-xs">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 space-y-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="space-y-3">
               <div className="flex items-center gap-2.5">
-                <HamtineLogo size="sm" />
+                <div className="w-9 h-9 rounded-xl border border-slate-200 bg-slate-50 p-1 flex items-center justify-center">
+                  <img src="/hamtine-logo.svg" alt="Hamtine Telecom 4" className="w-full h-full object-contain" />
+                </div>
                 <div>
-                  <h3 className="font-black text-white text-base leading-tight">
+                  <h3 className="font-black text-slate-900 text-sm sm:text-base leading-tight">
                     {t.storeName}
                   </h3>
-                  <span className="text-[10px] text-amber-400 font-bold">فرع 4 (الوادي)</span>
+                  <span className="text-[11px] text-amber-700 font-bold">فرع 4 (الوادي)</span>
                 </div>
               </div>
-              <p className="text-neutral-400 leading-relaxed text-xs">
+              <p className="text-slate-500 leading-relaxed text-xs">
                 {language === 'ar'
-                  ? 'المتجر والورشة الرسمية لمحل حمتين تيليكوم 4: بيع الهواتف الذكية الجديدة والمستعملة المضمونة، الإكسسوارات الأصلية، قطع الغيار وخدمات الصيانة الفورية مع التوصيل لـ 58 ولاية والدفع عند الاستلام.'
-                  : 'Boutique officielle Hamtine Telecom 4: Vente de smartphones, accessoires, pièces détachées et réparation avec livraison 58 wilayas.'}
+                  ? 'المتجر الرسمي لمحل حمتين تيليكوم 4: هواتف جديدة ومستعملة مع الضمان، إكسسوارات أصلية، صيانة فورية، ودفع عند الاستلام لـ 58 ولاية.'
+                  : 'Boutique officielle Hamtine Telecom 4 : Smartphones certifiés, accessoires, SAV et paiement à la livraison 58 wilayas.'}
               </p>
             </div>
 
             <div className="space-y-2">
-              <h4 className="font-extrabold text-white text-xs uppercase tracking-wider">
-                {language === 'ar' ? 'شركاء الشحن والتوصيل' : 'Partenaires de Livraison'}
+              <h4 className="font-extrabold text-slate-900 text-xs uppercase tracking-wider">
+                {language === 'ar' ? 'شركاء الشحن' : 'Partenaires de Livraison'}
               </h4>
-              <ul className="space-y-1.5 text-neutral-400">
+              <ul className="space-y-1.5 text-slate-500 text-xs">
                 <li>• ياليدين إكسبريس (Yalidine Express)</li>
                 <li>• زد آر إكسبريس (ZR Express)</li>
-                <li>• نويست للتوصيل (NOEST Delivery)</li>
-                <li>• إيكوتراك الجزائر (EcoTrack)</li>
+                <li>• توصيل لباب المنزل أو Stop Desk</li>
+                <li>• فحص ومعاينة الهاتف قبل الدفع</li>
               </ul>
             </div>
 
             <div className="space-y-2">
-              <h4 className="font-extrabold text-white text-xs uppercase tracking-wider">
+              <h4 className="font-extrabold text-slate-900 text-xs uppercase tracking-wider">
                 {language === 'ar' ? 'وسائل الدفع والتقسيط' : 'Moyens de Paiement'}
               </h4>
-              <ul className="space-y-1.5 text-neutral-400">
+              <ul className="space-y-1.5 text-slate-500 text-xs">
                 <li>• الدفع نقداً عند الاستلام (COD)</li>
                 <li>• تطبيق بريدي موب (BaridiMob RIP)</li>
-                <li>• التحويل البريدي CCP الجزائر</li>
-                <li>• البيع بالتقسيط المعتمد (3 / 6 / 12 شهراً)</li>
+                <li>• الدفع المباشر داخل المحل بالوادي</li>
+                <li>• بيع بالتقسيط (3، 6، 12 شهراً)</li>
               </ul>
             </div>
 
             <div className="space-y-2">
-              <h4 className="font-extrabold text-white text-xs uppercase tracking-wider">
-                {language === 'ar' ? 'خدمة الزبائن ومقر المحل' : 'Service Client & Localisation'}
+              <h4 className="font-extrabold text-slate-900 text-xs uppercase tracking-wider">
+                {language === 'ar' ? 'المقر وخدمة الزبائن' : 'Contact & Localisation'}
               </h4>
-              <div className="space-y-1.5 text-neutral-300">
-                <p className="font-mono">📞 <a href="tel:0699269292" className="hover:underline">0699 26 92 92</a></p>
+              <div className="space-y-1.5 text-slate-600 text-xs">
+                <p className="font-mono font-bold text-slate-900">
+                  📞 <a href="tel:0699269292" className="hover:text-emerald-700">0699 26 92 92</a>
+                </p>
                 <p>📍 ولاية الوادي - حي الاستقلال / مفترق طرق الملاح</p>
                 <p>
                   <a
                     href="https://share.google/ychE3nVODcxqlIGDt"
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-bold underline decoration-amber-400/50"
+                    className="inline-flex items-center gap-1 text-emerald-700 hover:underline font-bold"
                   >
-                    <span>🗺️ موقع المحل على Google Maps ↗</span>
+                    <span>🗺️ خرائط Google Maps ↗</span>
                   </a>
                 </p>
-                <p className="text-neutral-400">⏰ السبت - الخميس: 09:00 - 21:00</p>
+                <p className="text-slate-400">⏰ يومياً: 09:00 - 21:00 (ما عدا الجمعة صباحاً)</p>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-500 text-[11px]">
+          <div className="border-t border-slate-200 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px]">
             <p>
-              © 2026 {t.storeName} — متجر إلكتروني متكامل لبيع الهواتف، قطع الغيار، وخدمات الصيانة والتقسيط لـ 58 ولاية.
+              © 2026 {t.storeName} — متجر هواتف جزائري معتمد لـ 58 ولاية.
             </p>
-            <div className="flex items-center gap-4 text-neutral-400">
-              <span>ضمان حقيقي 100%</span>
+            <div className="flex items-center gap-4 text-slate-600 font-medium flex-wrap">
+              <span>ضمان رسمي 100%</span>
               <span>•</span>
-              <span>دعم 58 ولاية</span>
+              <span>توصيل 58 ولاية</span>
               <span>•</span>
-              <span>فحص الطرد قبل الدفع</span>
+              <span>معاينة قبل الدفع</span>
+              <span>•</span>
+              <button
+                onClick={() => {
+                  window.location.hash = 'admin';
+                  setCurrentView('dashboard');
+                }}
+                className="text-slate-400 hover:text-slate-900 flex items-center gap-1 transition cursor-pointer text-[10px]"
+                title="لوحة تحكم إدارة المحل"
+              >
+                <Lock className="w-3 h-3" />
+                <span>لوحة تحكم الإدارة</span>
+              </button>
             </div>
           </div>
         </div>
@@ -176,14 +234,18 @@ const MainAppContent: React.FC = () => {
       {/* Floating Direct WhatsApp Button */}
       <button
         onClick={() => {
-          const msg = encodeURIComponent('مرحباً حمتين تيليكوم 4، أود الاستفسار عن الهواتف المتوفرة أو خدمات الصيانة.');
+          const msg = encodeURIComponent(
+            language === 'ar'
+              ? 'السلام عليكم حمتين تيليكوم 4، أود الاستفسار عن الهواتف المتوفرة أو خدمات الصيانة.'
+              : 'Bonjour Hamtine Telecom 4, je souhaite me renseigner sur les smartphones.'
+          );
           window.open(`https://wa.me/213699269292?text=${msg}`, '_blank');
         }}
-        className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40 p-3.5 rounded-full bg-emerald-400 hover:bg-emerald-300 text-[#08090d] shadow-[0_8px_30px_rgba(52,211,153,0.4)] flex items-center gap-2 transition hover:scale-105 cursor-pointer font-black"
+        className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40 p-3 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg flex items-center gap-2 transition hover:scale-105 cursor-pointer font-bold"
         title="تواصل معنا عبر واتساب"
       >
-        <MessageCircle className="w-6 h-6 fill-current" />
-        <span className="hidden md:inline font-black text-xs pr-1">
+        <MessageCircle className="w-5 h-5 fill-current" />
+        <span className="hidden md:inline text-xs pr-1">
           {language === 'ar' ? 'مساعدة واتساب' : 'WhatsApp'}
         </span>
       </button>
@@ -234,19 +296,19 @@ const MainAppContent: React.FC = () => {
           {toasts.map((toastItem) => (
             <div
               key={toastItem.id}
-              className={`px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-bold transition-all border backdrop-blur-xl ${
+              className={`px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2.5 text-xs font-bold transition-all border ${
                 toastItem.type === 'success'
-                  ? 'bg-emerald-950/90 text-emerald-200 border-emerald-500/40 shadow-emerald-950/50'
+                  ? 'bg-emerald-50 text-emerald-900 border-emerald-200'
                   : toastItem.type === 'error'
-                  ? 'bg-rose-950/90 text-rose-200 border-rose-500/40 shadow-rose-950/50'
+                  ? 'bg-rose-50 text-rose-900 border-rose-200'
                   : toastItem.type === 'warning'
-                  ? 'bg-amber-950/90 text-amber-200 border-amber-500/40 shadow-amber-950/50'
-                  : 'bg-[#0e1017]/95 text-white border-white/10'
+                  ? 'bg-amber-50 text-amber-900 border-amber-200'
+                  : 'bg-slate-900 text-white border-slate-800'
               }`}
             >
-              {toastItem.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
-              {toastItem.type === 'error' && <AlertCircle className="w-4 h-4 text-rose-400 shrink-0" />}
-              {toastItem.type === 'warning' && <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />}
+              {toastItem.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
+              {toastItem.type === 'error' && <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />}
+              {toastItem.type === 'warning' && <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />}
               {toastItem.type === 'info' && <Sparkles className="w-4 h-4 text-sky-400 shrink-0" />}
               <span>{toastItem.message}</span>
             </div>
@@ -264,3 +326,4 @@ export default function App() {
     </StoreProvider>
   );
 }
+

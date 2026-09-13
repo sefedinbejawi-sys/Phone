@@ -204,32 +204,32 @@ export const RepairSection: React.FC = () => {
   ];
 
   return (
-    <div className="hub-module space-y-8 pb-12">
+    <div className="space-y-6 pb-12">
       {/* Repair Section Hero */}
-      <div className="rounded-3xl bg-gradient-to-br from-amber-950 via-stone-900 to-stone-900 text-white p-6 sm:p-10 border border-amber-900/40 shadow-xl relative overflow-hidden">
-        <div className="relative z-10 max-w-3xl space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold">
-            <Wrench className="w-3.5 h-3.5 text-amber-400" />
-            <span>{language === 'ar' ? 'وحدة ورشة الصيانة المعتمدة' : 'Atelier de Maintenance Agréé'}</span>
+      <div className="rounded-2xl bg-white text-slate-900 p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">
+            <Wrench className="w-3.5 h-3.5 text-amber-600" />
+            <span>{language === 'ar' ? 'ورشة الصيانة المعتمدة (الوادي)' : 'Atelier de Réparation Agréé'}</span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-black text-white leading-tight">
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
             {t.repairHeroTitle}
           </h1>
 
-          <p className="text-stone-300 text-xs sm:text-sm max-w-2xl leading-relaxed">
+          <p className="text-slate-600 text-xs sm:text-sm max-w-2xl leading-relaxed">
             {t.repairHeroSubtitle}
           </p>
         </div>
 
         {/* Tab switcher */}
-        <div className="relative z-10 mt-6 flex items-center gap-2 overflow-x-auto border-t border-stone-800 pt-4">
+        <div className="flex items-center gap-2 overflow-x-auto border-t border-slate-100 pt-3">
           <button
             onClick={() => setActiveTab('request')}
             className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition cursor-pointer ${
               activeTab === 'request'
-                ? 'bg-amber-600 text-white shadow-lg shadow-amber-900/40'
-                : 'bg-stone-800/80 text-stone-300 hover:bg-stone-800'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
             <Wrench className="w-4 h-4" />
@@ -240,14 +240,14 @@ export const RepairSection: React.FC = () => {
             onClick={() => setActiveTab('track')}
             className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition cursor-pointer ${
               activeTab === 'track'
-                ? 'bg-amber-600 text-white shadow-lg shadow-amber-900/40'
-                : 'bg-stone-800/80 text-stone-300 hover:bg-stone-800'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
             <Clock className="w-4 h-4" />
             <span>{t.trackRepairTitle}</span>
             {activeTrackingTicket && (
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             )}
           </button>
 
@@ -255,12 +255,12 @@ export const RepairSection: React.FC = () => {
             onClick={() => setActiveTab('pricing')}
             className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition cursor-pointer ${
               activeTab === 'pricing'
-                ? 'bg-amber-600 text-white shadow-lg shadow-amber-900/40'
-                : 'bg-stone-800/80 text-stone-300 hover:bg-stone-800'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
             <ShieldCheck className="w-4 h-4" />
-            <span>{language === 'ar' ? 'جدول الأسعار التقديرية والضمان' : 'Grille Tarifaire & Garantie'}</span>
+            <span>{language === 'ar' ? 'الأسعار والضمان' : 'Tarifs & Garantie'}</span>
           </button>
         </div>
       </div>

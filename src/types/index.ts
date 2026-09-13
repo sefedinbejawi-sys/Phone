@@ -229,3 +229,29 @@ export interface InstallmentPlan {
   status: 'active' | 'completed' | 'defaulted' | 'pending_approval';
   verifiedBy?: string;
 }
+
+export interface StoreSettings {
+  storeName: string;
+  storeNameFr: string;
+  phone: string;
+  phoneSecondary?: string;
+  address: string;
+  googleMapsUrl: string;
+  workingHours: string;
+  isOpen: boolean;
+  announcementText?: string;
+  deliveryNotice?: string;
+  installmentInterestRate?: number;
+  customNotes?: string;
+}
+
+export interface BackupPayload {
+  store?: string;
+  timestamp: string;
+  version?: string;
+  settings?: Partial<StoreSettings>;
+  products: Product[];
+  orders: Order[];
+  repairs: RepairTicket[];
+  installments: InstallmentPlan[];
+}

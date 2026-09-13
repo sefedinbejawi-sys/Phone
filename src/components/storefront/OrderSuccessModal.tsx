@@ -8,8 +8,6 @@ import {
   Truck,
   Printer,
   X,
-  Package,
-  CreditCard,
   Store,
   MapPin,
   Clock,
@@ -44,230 +42,136 @@ export const OrderSuccessModal: React.FC<OrderSuccessModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/90 backdrop-blur-xl flex justify-center items-start p-0 sm:p-4 md:p-6">
-      <div className="relative w-full max-w-xl bg-[#0c0e15] text-neutral-200 rounded-none sm:rounded-[2.5rem] shadow-[0_25px_80px_rgba(0,0,0,0.85)] overflow-hidden my-0 sm:my-8 border-0 sm:border border-white/10 min-h-screen sm:min-h-0 flex flex-col">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-150">
+      <div className="relative w-full max-w-lg bg-white rounded-2xl border border-slate-200 shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col text-slate-900">
         {/* Success header */}
         <div
-          className={`text-white p-6 sm:p-8 text-center relative border-b border-white/10 ${
+          className={`p-6 text-center relative border-b ${
             isStorePickup
-              ? 'bg-gradient-to-b from-amber-950/70 via-amber-950/30 to-[#08090d]'
-              : 'bg-gradient-to-b from-emerald-950/70 via-emerald-950/30 to-[#08090d]'
+              ? 'bg-amber-50/80 border-amber-100 text-amber-950'
+              : 'bg-emerald-50/80 border-emerald-100 text-emerald-950'
           }`}
         >
           <button
             onClick={onClose}
-            className="absolute top-4 left-4 w-9 h-9 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.09] text-neutral-300 hover:text-white flex items-center justify-center transition cursor-pointer"
+            className="absolute top-4 left-4 w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-black/5 flex items-center justify-center transition cursor-pointer"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
 
           <div
-            className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-3 ${
+            className={`w-14 h-14 rounded-2xl mx-auto flex items-center justify-center mb-3 ${
               isStorePickup
-                ? 'bg-amber-400/15 border border-amber-400/40 text-amber-400 shadow-[0_0_30px_rgba(251,191,36,0.3)]'
-                : 'bg-emerald-400/15 border border-emerald-400/40 text-emerald-400 shadow-[0_0_30px_rgba(52,211,153,0.3)]'
+                ? 'bg-amber-100 text-amber-700'
+                : 'bg-emerald-100 text-emerald-700'
             }`}
           >
-            {isStorePickup ? <Store className="w-9 h-9" /> : <CheckCircle2 className="w-9 h-9" />}
+            {isStorePickup ? <Store className="w-7 h-7" /> : <CheckCircle2 className="w-7 h-7" />}
           </div>
 
-          <h2 className="text-xl sm:text-2xl font-black text-white">
+          <h2 className="text-lg sm:text-xl font-black text-slate-900">
             {isStorePickup
-              ? (language === 'ar' ? 'تهانينا! تم حجز هاتفك للاستلام من المحل' : 'Félicitations! Retrait Magasin Confirmé')
-              : (language === 'ar' ? 'تهانينا! تم تسجيل طلبك بنجاح' : 'Félicitations! Commande Confirmée')}
+              ? (language === 'ar' ? 'تم تسجيل حجزك بنجاح!' : 'Réservation Confirmée !')
+              : (language === 'ar' ? 'تم تسجيل طلبك بنجاح!' : 'Commande Confirmée !')}
           </h2>
-          <p className="text-neutral-300 text-xs sm:text-sm mt-1.5 max-w-md mx-auto leading-relaxed">
+          <p className="text-slate-600 text-xs mt-1 max-w-sm mx-auto leading-relaxed">
             {isStorePickup
               ? (language === 'ar'
-                  ? 'تم حجز وتجهيز الهاتف باسمك في محل حمتين تيليكوم 4 (الوادي). تفضل بزيارتنا للمعاينة والتجربة والدفع مباشرة.'
-                  : 'Votre smartphone est réservé chez Hamtine Telecom 4 (El Oued). Vous pouvez passer pour le tester et payer sur place.')
+                  ? 'تم حجز الهاتف باسمك في محل حمتين تيليكوم 4 بالوادي. تفضل بزيارتنا للفحص والدفع نقداً أو بـ BaridiMob.'
+                  : 'Votre smartphone est réservé au magasin Hamtine Telecom 4.')
               : (language === 'ar'
-                  ? 'سيتصل بك فريق خدمة الزبائن هاتفياً خلال دقائق لتأكيد العنوان وبدء الشحن الفوري'
-                  : 'Notre service client va vous appeler dans les prochaines minutes pour confirmer l\'expédition')}
+                  ? 'سيتصل بك فريقنا هاتفياً خلال دقائق لتأكيد العنوان وبدء الشحن الفوري لباب منزلك.'
+                  : 'Notre service va vous contacter pour confirmer la livraison.')}
           </p>
 
-          <div
-            className={`mt-4 inline-flex items-center gap-2 px-4 py-1.5 rounded-full font-mono text-sm font-bold tracking-wide border ${
-              isStorePickup
-                ? 'bg-amber-400/15 border-amber-400/30 text-amber-300'
-                : 'bg-emerald-400/15 border-emerald-400/30 text-emerald-300'
-            }`}
-          >
+          <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full font-mono text-xs font-bold bg-white border border-slate-200 text-slate-800 shadow-xs">
             <span>#{order.orderNumber}</span>
           </div>
         </div>
 
         {/* Details Content */}
-        <div className="p-5 sm:p-8 space-y-5 flex-1">
-          {/* In-Store Pickup Banner / Map Directions */}
+        <div className="p-5 sm:p-6 space-y-4 overflow-y-auto flex-1">
+          {/* In-Store Pickup Banner */}
           {isStorePickup && (
-            <div className="bg-amber-400/[0.09] rounded-2xl p-4 sm:p-5 border-2 border-amber-400/30 space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-amber-300 font-black text-sm">
-                  <Store className="w-5 h-5 text-amber-400" />
-                  <span>محل حمتين تيليكوم 4 - Hamtine Telecom 4</span>
-                </div>
-                <span className="px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 font-bold text-[10px]">
-                  دفع واستلام بالمحل
-                </span>
+            <div className="bg-amber-50 rounded-xl p-3.5 border border-amber-200 text-xs text-amber-900 space-y-2">
+              <div className="font-bold flex items-center gap-1.5 text-amber-900">
+                <Store className="w-4 h-4 text-amber-700" />
+                <span>محل حمتين تيليكوم 4 (الوادي)</span>
               </div>
-
-              <div className="text-xs text-neutral-200 space-y-2 leading-relaxed">
-                <div className="flex items-start gap-2">
-                  <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                  <span><strong>العنوان:</strong> ولاية الوادي - حي الاستقلال / مفترق طرق الملاح (مقابل المحطة)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <PhoneCall className="w-4 h-4 text-amber-400 shrink-0" />
-                  <span><strong>هاتف المحل:</strong> <strong dir="ltr" className="font-mono text-white">0699 26 92 92</strong></span>
-                </div>
-                <div className="flex items-start gap-2">
-                  <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                  <span><strong>أوقات العمل:</strong> يومياً من 08:30 صباحاً إلى 22:00 ليلاً (ما عدا الجمعة مساءً)</span>
-                </div>
-              </div>
-
-              <div className="pt-2 border-t border-amber-400/20 flex flex-wrap items-center gap-3">
+              <p className="text-[11px] leading-relaxed text-amber-800">
+                الوادي: حي الاستقلال / مفترق طرق الملاح (مقابل المحطة) • مفتوح يومياً 09:00 - 21:00
+              </p>
+              <div className="pt-1 flex items-center gap-2">
                 <a
                   href="https://share.google/ychE3nVODcxqlIGDt"
                   target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-400 text-slate-950 font-black text-xs hover:bg-amber-300 transition shadow-sm"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-950 hover:underline"
                 >
-                  <MapPin className="w-4 h-4" />
-                  <span>فتح الموقع في خرائط Google Maps</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-                <a
-                  href="tel:0699269292"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-amber-400/40 bg-amber-400/10 text-amber-300 hover:bg-amber-400/20 font-bold text-xs transition"
-                >
-                  <PhoneCall className="w-4 h-4" />
-                  <span>اتصال هاتفي بالمحل</span>
+                  <MapPin className="w-3.5 h-3.5" />
+                  <span>الموقع على Google Maps</span>
+                  <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
             </div>
           )}
 
           {/* Order Summary box */}
-          <div className="bg-white/[0.04] rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 text-xs sm:text-sm">
-            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-              <span className="text-neutral-400 font-medium">{language === 'ar' ? 'اسم الزبون:' : 'Client:'}</span>
-              <span className="font-bold text-white text-sm">{order.customerName}</span>
+          <div className="bg-slate-50 rounded-xl p-4 border border-slate-200/80 space-y-2 text-xs">
+            <div className="flex justify-between border-b border-slate-200/60 pb-2">
+              <span className="text-slate-500">{language === 'ar' ? 'اسم الزبون:' : 'Client :'}</span>
+              <span className="font-bold text-slate-900">{order.customerName}</span>
             </div>
-            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-              <span className="text-neutral-400 font-medium">{language === 'ar' ? 'رقم الهاتف:' : 'Téléphone:'}</span>
-              <span className="font-bold text-emerald-400 font-mono text-sm" dir="ltr">{order.phone}</span>
+            <div className="flex justify-between border-b border-slate-200/60 pb-2">
+              <span className="text-slate-500">{language === 'ar' ? 'رقم الهاتف:' : 'Téléphone :'}</span>
+              <span className="font-bold font-mono text-slate-900" dir="ltr">{order.phone}</span>
             </div>
-            {order.phoneSecondary && (
-              <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-                <span className="text-neutral-400 font-medium">{language === 'ar' ? 'هاتف احتياطي:' : 'Tél secondaire:'}</span>
-                <span className="font-semibold text-neutral-300 font-mono" dir="ltr">{order.phoneSecondary}</span>
-              </div>
-            )}
-            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-              <span className="text-neutral-400 font-medium">{isStorePickup ? (language === 'ar' ? 'مكان الاستلام:' : 'Lieu de retrait:') : (language === 'ar' ? 'وجهة التوصيل:' : 'Destination:')}</span>
-              <span className="font-bold text-white text-end">
+            <div className="flex justify-between border-b border-slate-200/60 pb-2">
+              <span className="text-slate-500">{language === 'ar' ? 'الوجهة:' : 'Destination :'}</span>
+              <span className="font-semibold text-slate-800 text-end">
                 {isStorePickup
-                  ? (language === 'ar' ? 'محل حمتين تيليكوم 4 (الوادي - مفترق طرق الملاح)' : 'Hamtine Telecom 4 (El Oued)')
+                  ? (language === 'ar' ? 'استلام من المحل بالوادي' : 'Magasin El Oued')
                   : `${order.wilayaName} - ${order.commune}`}
               </span>
             </div>
-            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-              <span className="text-neutral-400 font-medium">{language === 'ar' ? 'طريقة الاستلام:' : 'Mode:'}</span>
-              <span className="font-semibold text-neutral-200">
+            <div className="flex justify-between border-b border-slate-200/60 pb-2">
+              <span className="text-slate-500">{language === 'ar' ? 'الدفع:' : 'Paiement :'}</span>
+              <span className="font-bold text-emerald-700">
                 {isStorePickup
-                  ? (language === 'ar' ? '🏪 استلام مباشر ومعاينة داخل المحل (0 دج مصاريف شحن)' : 'Retrait direct en magasin (Gratuit)')
-                  : order.deliveryType === 'home'
-                  ? (language === 'ar' ? 'توصيل لباب المنزل' : 'À domicile')
-                  : (language === 'ar' ? 'استلام من مكتب التوصيل (Stop Desk)' : 'Point relais')}
+                  ? (language === 'ar' ? 'عند الاستلام بالمحل' : 'Au magasin')
+                  : (language === 'ar' ? 'عند الاستلام بعد المعاينة' : 'À la livraison (COD)')}
               </span>
             </div>
-            <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-              <span className="text-neutral-400 font-medium">{language === 'ar' ? 'طريقة الدفع:' : 'Paiement:'}</span>
-              <span className={`font-bold ${isStorePickup ? 'text-amber-400' : 'text-emerald-400'}`}>
-                {isStorePickup
-                  ? (language === 'ar' ? '💵 الدفع المباشر داخل المحل بعد فحص الهاتف (نقداً أو BaridiMob)' : 'Paiement en magasin après vérification (Espèces / BaridiMob)')
-                  : (language === 'ar' ? 'الدفع نقداً عند الاستلام بعد المعاينة (COD)' : 'Paiement à la livraison après vérification')}
-              </span>
-            </div>
-            {order.address && (
-              <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
-                <span className="text-neutral-400 font-medium">{isStorePickup ? (language === 'ar' ? 'ملاحظة الزبون:' : 'Note:') : (language === 'ar' ? 'العنوان:' : 'Adresse:')}</span>
-                <span className="font-semibold text-neutral-300 text-end">{order.address}</span>
-              </div>
-            )}
-            <div className="flex items-center justify-between pt-1">
-              <span className="font-bold text-neutral-200 text-sm">{t.totalText}</span>
-              <span className={`text-lg sm:text-xl font-black ${isStorePickup ? 'text-amber-400' : 'text-emerald-400'}`}>
-                {order.total.toLocaleString()} {t.currency}
-              </span>
+            <div className="flex justify-between pt-1 font-black text-sm text-slate-900">
+              <span>{t.totalText}:</span>
+              <span className="text-emerald-800 text-base">{order.total.toLocaleString()} د.ج</span>
             </div>
           </div>
 
-          {/* Confirmation advice banner */}
-          <div
-            className={`rounded-2xl p-4 border flex items-start gap-3 text-xs ${
-              isStorePickup
-                ? 'bg-amber-400/[0.07] border-amber-400/20 text-amber-300'
-                : 'bg-emerald-400/[0.07] border-emerald-400/20 text-emerald-300'
-            }`}
-          >
-            {isStorePickup ? (
-              <Store className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-            ) : (
-              <PhoneCall className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-            )}
-            <div>
-              <h4 className="font-bold mb-0.5 text-white">
-                {isStorePickup
-                  ? (language === 'ar' ? 'فحص وتجربة الجهاز داخل المحل' : 'Test et vérification en magasin')
-                  : (language === 'ar' ? 'يرجى إبقاء هاتفك مفتوحاً' : 'Gardez votre téléphone allumé')}
-              </h4>
-              <p className="text-neutral-300 leading-relaxed">
-                {isStorePickup
-                  ? (language === 'ar'
-                      ? `عند قدومك للمحل، اذكر رقم الطلب #${order.orderNumber}. سيقوم التقني بفتح العلبة وتجربة الهاتف معك والتأكد من شهادة الضمان قبل الدفع نقداً أو ببريدي موب.`
-                      : `En magasin, indiquez votre numéro #${order.orderNumber}. Notre technicien vous assistera pour tester l'appareil avant de régler.`)
-                  : (language === 'ar'
-                      ? 'سيتصل بك موزعنا لتحديد موعد التسليم الدقيق. يمكنك فتح الطرد وتجربة الهاتف والتأكد من الضمان قبل دفع أي دينار للموزع.'
-                      : 'Vous recevrez un appel de confirmation. Vous avez le droit d\'ouvrir le colis et de tester le téléphone avant de payer.')}
-              </p>
-            </div>
-          </div>
-
-          {/* Action buttons */}
-          <div className="space-y-3 pt-2">
+          {/* Actions */}
+          <div className="space-y-2 pt-2">
             <button
               onClick={handleWhatsAppContact}
-              className={`w-full py-3.5 px-4 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition cursor-pointer ${
-                isStorePickup
-                  ? 'bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-[0_8px_30px_rgba(251,191,36,0.3)]'
-                  : 'bg-emerald-400 hover:bg-emerald-300 text-[#08090d] shadow-[0_8px_30px_rgba(52,211,153,0.25)]'
-              }`}
+              className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-xs"
             >
-              <MessageCircle className="w-4 h-4" />
-              <span>
-                {isStorePickup
-                  ? (language === 'ar' ? 'تأكيد الحضور مع المحل عبر واتساب (WhatsApp)' : 'Confirmer via WhatsApp')
-                  : (language === 'ar' ? 'تأكيد سريع عبر واتساب (WhatsApp)' : 'Confirmation rapide WhatsApp')}
-              </span>
+              <MessageCircle className="w-4 h-4 fill-current" />
+              <span>{language === 'ar' ? 'تأكيد الحجز عبر واتساب' : 'Confirmer sur WhatsApp'}</span>
             </button>
 
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={handlePrint}
-                className="py-2.5 px-3 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer"
+                className="py-2 px-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer"
               >
-                <Printer className="w-4 h-4 text-neutral-400" />
-                <span>{language === 'ar' ? 'طباعة وصل الحجز' : 'Imprimer le reçu'}</span>
+                <Printer className="w-3.5 h-3.5" />
+                <span>{language === 'ar' ? 'طباعة الوصل' : 'Imprimer'}</span>
               </button>
 
               <button
                 onClick={onClose}
-                className="py-2.5 px-3 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] text-white font-bold text-xs text-center transition cursor-pointer"
+                className="py-2 px-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs text-center transition cursor-pointer"
               >
-                {language === 'ar' ? 'متابعة التصفح' : 'Continuer vos achats'}
+                {language === 'ar' ? 'متابعة التصفح' : 'Continuer'}
               </button>
             </div>
           </div>

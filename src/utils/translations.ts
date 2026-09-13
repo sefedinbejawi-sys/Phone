@@ -89,6 +89,14 @@ export const translations = {
       delivered: 'تم التسليم للزبون بنجاح',
       cancelled: 'ملغى / تعذر الإصلاح',
     },
+    orderStages: {
+      pending_call: 'بانتظار التأكيد الهاتفي',
+      confirmed: 'مؤكد وجاهز للتجهيز',
+      shipped: 'قيد التوصيل والشحن',
+      delivered: 'تم التسليم بنجاح',
+      returned: 'مسترجع / روتر',
+      cancelled: 'ملغى',
+    },
     
     // Installment Module
     installmentHeroTitle: 'خدمة البيع بالتقسيط الميسر بدون تعقيد',
@@ -211,6 +219,14 @@ export const translations = {
       ready: 'Prêt pour retrait au magasin',
       delivered: 'Livré au client avec succès',
       cancelled: 'Annulé / Irréparable',
+    },
+    orderStages: {
+      pending_call: 'En attente de confirmation',
+      confirmed: 'Confirmée',
+      shipped: 'En cours de livraison',
+      delivered: 'Livrée avec succès',
+      returned: 'Retournée',
+      cancelled: 'Annulée',
     },
     
     // Installment Module

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStore } from '../../context/StoreContext';
-import { X, Trash2, ShoppingBag, ArrowLeft, ArrowRight, Zap, Check } from 'lucide-react';
+import { X, Trash2, ShoppingBag, Zap, ArrowRight, ArrowLeft } from 'lucide-react';
 
 interface CartDrawerProps {
   onOpenCheckout: () => void;
@@ -21,78 +21,78 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
   if (!isCartOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/80 backdrop-blur-md">
-      <div className="w-full max-w-md bg-[#0c0e15] border-l border-white/10 text-neutral-200 h-full shadow-[0_0_80px_rgba(0,0,0,0.8)] flex flex-col justify-between overflow-hidden">
+    <div className="fixed inset-0 z-50 flex justify-end bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="w-full max-w-md bg-white text-slate-900 h-full shadow-2xl flex flex-col justify-between overflow-hidden border-r sm:border-l border-slate-200">
         {/* Cart Header */}
-        <div className="p-5 bg-[#08090d] text-white flex items-center justify-between border-b border-white/10">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-[#c2410c]/20 border border-[#c2410c]/30 flex items-center justify-center text-[#f97316]">
+        <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center">
               <ShoppingBag className="w-4 h-4" />
             </div>
-            <h3 className="font-extrabold text-base text-white">
+            <h3 className="font-black text-sm sm:text-base text-slate-900">
               {t.cart} ({cart.length} {t.items})
             </h3>
           </div>
           <button
             onClick={() => setIsCartOpen(false)}
-            className="w-8 h-8 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.09] text-neutral-300 hover:text-white flex items-center justify-center transition cursor-pointer"
+            className="w-8 h-8 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200 flex items-center justify-center transition cursor-pointer"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Cart items list */}
-        <div className="p-5 flex-1 overflow-y-auto space-y-3">
+        <div className="p-4 flex-1 overflow-y-auto space-y-3">
           {cart.length === 0 ? (
-            <div className="text-center py-24 text-neutral-500 space-y-4">
-              <div className="w-16 h-16 mx-auto rounded-3xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-neutral-500">
-                <ShoppingBag className="w-8 h-8 stroke-1" />
+            <div className="text-center py-20 text-slate-400 space-y-3">
+              <div className="w-14 h-14 mx-auto rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400">
+                <ShoppingBag className="w-7 h-7" />
               </div>
-              <p className="font-semibold text-sm text-neutral-400">
-                {language === 'ar' ? 'سلة المشتريات فارغة حالياً' : 'Votre panier est vide'}
+              <p className="font-bold text-xs sm:text-sm text-slate-700">
+                {language === 'ar' ? 'سلة المشتريات فارغة' : 'Votre panier est vide'}
               </p>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="mt-2 px-5 py-2.5 rounded-xl bg-[#c2410c] hover:bg-[#ea580c] text-white text-xs font-black transition cursor-pointer"
+                className="mt-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition cursor-pointer"
               >
-                {language === 'ar' ? 'تصفح تشكيلة الهواتف' : 'Voir les smartphones'}
+                {language === 'ar' ? 'تصفح الهواتف المتوفرة' : 'Voir les smartphones'}
               </button>
             </div>
           ) : (
             cart.map((item) => (
               <div
                 key={item.product.id}
-                className="flex items-center justify-between gap-3 p-3.5 rounded-2xl bg-white/[0.035] border border-white/10 hover:border-white/20 transition"
+                className="flex items-center justify-between gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-slate-300 transition"
               >
                 <img
-                  src={item.product.images[0]}
+                  src={item.product.images[0] || '/hamtine-logo.svg'}
                   alt={item.product.name}
-                  className="w-14 h-14 object-contain rounded-xl bg-[#08090d] border border-white/10 p-1.5 shrink-0"
+                  className="w-14 h-14 object-contain rounded-lg bg-white border border-slate-100 p-1.5 shrink-0 mix-blend-multiply"
                   referrerPolicy="no-referrer"
                 />
 
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-extrabold text-white text-xs truncate">
-                    {language === 'ar' ? item.product.name : item.product.nameFr || item.product.name}
+                  <h4 className="font-bold text-slate-900 text-xs truncate">
+                    {item.product.name}
                   </h4>
-                  <p className="text-neutral-400 text-[11px] font-mono mt-0.5">
+                  <p className="text-slate-500 text-[11px] mt-0.5">
                     {item.selectedStorage ? `${item.selectedStorage} • ` : ''}
-                    <span className="text-emerald-400 font-bold">{item.product.price.toLocaleString()} {t.currency}</span>
+                    <span className="text-slate-900 font-bold">{item.product.price.toLocaleString()} د.ج</span>
                   </p>
 
                   <div className="flex items-center gap-2 mt-2">
                     <button
                       onClick={() => updateCartQuantity(item.product.id, item.quantity - 1)}
-                      className="w-6 h-6 rounded-lg bg-white/[0.06] border border-white/10 text-white flex items-center justify-center text-xs font-bold hover:bg-white/[0.12] transition"
+                      className="w-6 h-6 rounded-md bg-white border border-slate-200 text-slate-800 flex items-center justify-center text-xs font-bold hover:bg-slate-100 transition"
                     >
                       -
                     </button>
-                    <span className="text-xs font-bold w-4 text-center text-white">
+                    <span className="text-xs font-bold w-4 text-center text-slate-900">
                       {item.quantity}
                     </span>
                     <button
                       onClick={() => updateCartQuantity(item.product.id, item.quantity + 1)}
-                      className="w-6 h-6 rounded-lg bg-white/[0.06] border border-white/10 text-white flex items-center justify-center text-xs font-bold hover:bg-white/[0.12] transition"
+                      className="w-6 h-6 rounded-md bg-white border border-slate-200 text-slate-800 flex items-center justify-center text-xs font-bold hover:bg-slate-100 transition"
                     >
                       +
                     </button>
@@ -102,13 +102,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
                 <div className="text-left flex flex-col items-end justify-between self-stretch">
                   <button
                     onClick={() => removeFromCart(item.product.id)}
-                    className="text-neutral-500 hover:text-rose-400 transition p-1 cursor-pointer"
+                    className="text-slate-400 hover:text-rose-600 transition p-1 cursor-pointer"
                     title="حذف"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
-                  <span className="font-black text-xs text-white">
-                    {(item.product.price * item.quantity).toLocaleString()} {t.currency}
+                  <span className="font-black text-xs text-slate-900">
+                    {(item.product.price * item.quantity).toLocaleString()} د.ج
                   </span>
                 </div>
               </div>
@@ -118,16 +118,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
 
         {/* Footer Checkout */}
         {cart.length > 0 && (
-          <div className="p-5 bg-[#08090d] border-t border-white/10 space-y-3">
-            <div className="flex items-center justify-between text-sm font-bold text-neutral-300">
+          <div className="p-4 bg-slate-50 border-t border-slate-200 space-y-3">
+            <div className="flex items-center justify-between text-xs sm:text-sm font-bold text-slate-700">
               <span>{t.subtotalText}</span>
-              <span className="text-white text-lg font-black">
-                {cartTotal.toLocaleString()} <span className="text-[#f97316] text-sm">{t.currency}</span>
+              <span className="text-slate-900 text-base font-black">
+                {cartTotal.toLocaleString()} <span className="text-xs font-bold text-slate-500">د.ج</span>
               </span>
             </div>
 
-            <p className="text-[11px] text-neutral-400">
-              * {language === 'ar' ? 'يتم احتساب سعر التوصيل الدقيق حسب ولايتك في الخطوة التالية' : 'Frais de livraison calculés selon votre wilaya à la commande'}
+            <p className="text-[11px] text-slate-500">
+              {language === 'ar' ? '• الدفع عند الاستلام مع إمكانية فحص الطرد قبل الدفع' : '• Paiement à la livraison avec vérification'}
             </p>
 
             <button
@@ -135,10 +135,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onOpenCheckout }) => {
                 setIsCartOpen(false);
                 onOpenCheckout();
               }}
-              className="w-full py-4 px-4 rounded-2xl bg-gradient-to-r from-[#ea580c] to-[#c2410c] hover:from-[#f97316] hover:to-[#ea580c] text-white font-black text-sm flex items-center justify-center gap-2 shadow-[0_8px_30px_rgba(194,65,12,0.35)] transition cursor-pointer"
+              className="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-xs transition cursor-pointer"
             >
-              <Zap className="w-4 h-4 fill-current" />
-              <span>{language === 'ar' ? 'متابعة الدفع السريع (COD)' : 'Passer la commande (COD)'}</span>
+              <Zap className="w-4 h-4 text-amber-400 fill-current" />
+              <span>{language === 'ar' ? 'متابعة وإتمام الطلب الآن' : 'Passer à la commande'}</span>
             </button>
           </div>
         )}

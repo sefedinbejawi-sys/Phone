@@ -149,32 +149,32 @@ export const InstallmentSection: React.FC<InstallmentSectionProps> = ({
   };
 
   return (
-    <div className="hub-module space-y-8 pb-12">
+    <div className="space-y-6 pb-12">
       {/* Installment Hero Banner */}
-      <div className="rounded-3xl bg-gradient-to-br from-sky-950 via-stone-900 to-stone-900 text-white p-6 sm:p-10 border border-sky-900/40 shadow-xl relative overflow-hidden">
-        <div className="relative z-10 max-w-3xl space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30 text-xs font-bold">
-            <CreditCard className="w-3.5 h-3.5 text-sky-400" />
-            <span>{language === 'ar' ? 'خدمة البيع بالتقسيط الميسر في الجزائر' : 'Vente par Facilité Sans Frais Cachés'}</span>
+      <div className="rounded-2xl bg-white text-slate-900 p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
+        <div className="space-y-2">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-purple-50 text-purple-800 border border-purple-200 text-xs font-bold">
+            <CreditCard className="w-3.5 h-3.5 text-purple-600" />
+            <span>{language === 'ar' ? 'خدمة البيع بالتقسيط المعتمد (الوادي)' : 'Facilité de Paiement'}</span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-black text-white leading-tight">
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
             {t.installmentHeroTitle}
           </h1>
 
-          <p className="text-stone-300 text-xs sm:text-sm max-w-2xl leading-relaxed">
+          <p className="text-slate-600 text-xs sm:text-sm max-w-2xl leading-relaxed">
             {t.installmentHeroSubtitle}
           </p>
         </div>
 
         {/* Tab Navigation */}
-        <div className="relative z-10 mt-6 flex items-center gap-2 overflow-x-auto border-t border-stone-800 pt-4">
+        <div className="flex items-center gap-2 overflow-x-auto border-t border-slate-100 pt-3">
           <button
             onClick={() => setActiveTab('simulator')}
             className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition cursor-pointer ${
               activeTab === 'simulator'
-                ? 'bg-sky-600 text-white shadow-lg shadow-sky-900/40'
-                : 'bg-stone-800/80 text-stone-300 hover:bg-stone-800'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
             <Calculator className="w-4 h-4" />
@@ -185,8 +185,8 @@ export const InstallmentSection: React.FC<InstallmentSectionProps> = ({
             onClick={() => setActiveTab('my-plan')}
             className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition cursor-pointer ${
               activeTab === 'my-plan'
-                ? 'bg-sky-600 text-white shadow-lg shadow-sky-900/40'
-                : 'bg-stone-800/80 text-stone-300 hover:bg-stone-800'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
             <Calendar className="w-4 h-4" />
@@ -197,8 +197,8 @@ export const InstallmentSection: React.FC<InstallmentSectionProps> = ({
             onClick={() => setActiveTab('requirements')}
             className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition cursor-pointer ${
               activeTab === 'requirements'
-                ? 'bg-sky-600 text-white shadow-lg shadow-sky-900/40'
-                : 'bg-stone-800/80 text-stone-300 hover:bg-stone-800'
+                ? 'bg-slate-900 text-white shadow-xs'
+                : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200'
             }`}
           >
             <FileCheck className="w-4 h-4" />
@@ -208,25 +208,25 @@ export const InstallmentSection: React.FC<InstallmentSectionProps> = ({
       </div>
 
       {/* Strict In-Store Only Notice Banner */}
-      <div className="rounded-2xl bg-sky-950/40 border-2 border-sky-400/40 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 text-sky-100 shadow-md">
-        <div className="w-12 h-12 rounded-2xl bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-300 shrink-0">
-          <Store className="w-6 h-6" />
+      <div className="rounded-2xl bg-purple-50 border border-purple-200 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 text-purple-900 shadow-xs">
+        <div className="w-10 h-10 rounded-xl bg-purple-100 border border-purple-200 flex items-center justify-center text-purple-700 shrink-0">
+          <Store className="w-5 h-5" />
         </div>
         <div className="space-y-1 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="font-black text-sm sm:text-base text-white">
+            <h3 className="font-black text-xs sm:text-sm text-purple-950">
               {language === 'ar'
-                ? 'البيع بالتقسيط يتم حصرياً على مستوى المحل فقط (ولاية الوادي - حمتين تيليكوم 4)'
-                : 'La vente par facilité s\'effectue exclusivement en magasin (El Oued - Hamtine Telecom 4)'}
+                ? 'البيع بالتقسيط يتم على مستوى المحل بالوادي (حمتين تيليكوم 4)'
+                : 'La vente par facilité s\'effectue en magasin (El Oued)'}
             </h3>
-            <span className="text-[10px] font-extrabold px-2.5 py-0.5 rounded-full bg-sky-400 text-slate-950">
-              {language === 'ar' ? 'حضور شخصي إلزامي' : 'Présence physique requise'}
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-200 text-purple-900">
+              {language === 'ar' ? 'حضور شخصي' : 'Sur place'}
             </span>
           </div>
-          <p className="text-xs text-sky-200/90 leading-relaxed">
+          <p className="text-xs text-purple-800 leading-relaxed">
             {language === 'ar'
-              ? 'وفقاً للإجراءات التنظيمية والمالية، يتم إيداع الملف الورقي الأصلي، دراسة الأهلية، توقيع العقد واستلام هاتفك الذكي فوراً داخل مقر محلنا الرسمي بحمتين تيليكوم 4 (ولاية الوادي - مفترق طرق الملاح). الطلبات والمحاكاة عبر الموقع تُمكّنك من حجز موعد مبدئي وحجز الجهاز فقط، ولا يتوفر شحن منزلي لطلبات التقسيط.'
-              : 'En conformité avec les réglementations, l\'étude du dossier physique, la signature du contrat et le retrait du smartphone s\'effectuent directement dans notre boutique Hamtine Telecom 4 à El Oued. Aucune livraison à domicile pour la facilité.'}
+              ? 'يتم إيداع الملف الورقي، دراسة الأهلية، وتوقيع العقد واستلام هاتفك داخل مقر محلنا الرسمي بحمتين تيليكوم 4 (ولاية الوادي - مفترق طرق الملاح).'
+              : 'Le dépôt du dossier, l\'étude et la signature s\'effectuent directement dans notre boutique à El Oued.'}
           </p>
         </div>
       </div>
